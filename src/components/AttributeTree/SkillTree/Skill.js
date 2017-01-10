@@ -5,12 +5,11 @@ import './Skill.css';
 class Skill extends Component {
 
   render() {
+		// console.log(this.props)
     return (
 			<div className="skill--block">
 				<div className="skill--block-wrapper">
-					<h2>Skill {this.props.name}</h2>
-					<p>/4</p>
-					<p>lorem lorem lorem</p>
+					<h1>{this.props.attributes.name}</h1>
 				</div>
 			</div>
     );

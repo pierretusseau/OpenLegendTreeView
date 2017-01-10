@@ -1,38 +1,39 @@
 import React, { Component } from 'react';
 
 import Button from "./AttributeTree/Button";
+import SkillTree from "./AttributeTree/SkillTree.js";
+
 
 class AttributeTree extends Component {
-	// getAttributeByCategory(filteredCategory) {
-	// 	const attributeArray = this.state.attributeArray;
-	// 	console.log(this.attributeArray);
-	// 	return this.attributeArray.filter(s => s.category === filteredCategory);
-	// 	return "Category"+attributeArray;
-	// }
-	// getAttributeByCategory() {
-	// 	this.attributeArray.map(attribute => <Button name={attribute}/>);
-	// }
-
+	getAttributeByCategory(array,categoryName) {
+		return array.filter(s => s.category === categoryName).map( attribute => <Button name={attribute.name} key={attribute.id} value={attribute.value}/>)
+	}
   render() {
 		const attributeArray = this.props.tree
-		// console.log(this.props.tree);
+		let charAttribute = attributeArray;
     return (
 			<div id="AttributeTree">
 				<div>
 					<h2>Physical</h2>
-					{attributeArray.filter(s => s.category === 'Physical').map( attribute => <Button name={attribute.name} key={attribute.id} value={attribute.value}/>)}
+					{this.getAttributeByCategory(attributeArray,'Physical')}
 				</div>
 				<div>
 					<h2>Mental</h2>
-					{attributeArray.filter(s => s.category === 'Mental').map( attribute => <Button name={attribute.name} key={attribute.id} value={attribute.value}/>)}
+					{this.getAttributeByCategory(attributeArray,'Mental')}
 				</div>
 				<div>
 					<h2>Social</h2>
-					{attributeArray.filter(s => s.category === 'Social').map( attribute => <Button name={attribute.name} key={attribute.id} value={attribute.value}/>)}
+					{this.getAttributeByCategory(attributeArray,'Social')}
 				</div>
 				<div>
 					<h2>Extraordinary</h2>
-					{attributeArray.filter(s => s.category === 'Extraordinary').map( attribute => <Button name={attribute.name} key={attribute.id} value={attribute.value}/>)}
+					{this.getAttributeByCategory(attributeArray,'Extraordinary')}
+				</div>
+				<hr/>
+				<div>
+					<h2>Test</h2>
+					<h3>{}</h3>
+					<SkillTree attributes={charAttribute}/>
 				</div>
 			</div>
     );

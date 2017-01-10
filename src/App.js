@@ -4,7 +4,7 @@ import './App.css';
 
 import AttributeTree from "./components/AttributeTree.js";
 // import Test from "./components/Test.js";
-import Skill from "./components/AttributeTree/SkillTree/Skill.js";
+// import Skill from "./components/AttributeTree/SkillTree/Skill.js";
 
 class App extends Component {
 	constructor() {
@@ -157,8 +157,6 @@ class App extends Component {
           Pour commencer, edit <code>src/App.js</code> and save to reload.
         </p>
 				<AttributeTree tree={store}/>
-				<Skill name="A" />
-				<Skill name="B" />
       </div>
     );
   }
