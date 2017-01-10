@@ -135,8 +135,8 @@ const initialAttributes = [
 ];
 
 class App extends Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 
 		document.oncontextmenu = function(e) {
 			e.preventDefault();
@@ -149,9 +149,12 @@ class App extends Component {
 		this.state = {
 			attributes: initialAttributes,
 		};
+
+		this.addAttributeValue = this.addAttributeValue.bind(this);
 	}
 
 	addAttributeValue(attributeName) {
+		console.log("App : addAttributeValue");
 		const oldAttributes = this.state.attributes;
 		const newAttributes = this.state.attributes.map(s => {
 			if (s.name === attributeName) {
@@ -166,6 +169,7 @@ class App extends Component {
 	}
 
   render() {
+		// console.log(this.state.attributes[0].name)
     return (
       <div className="App">
         <div className="App-header">
@@ -175,7 +179,8 @@ class App extends Component {
         <p className="App-intro">
           Pour commencer, edit <code>src/App.js</code> and save to reload.
         </p>
-				<AttributeTree tree={this.state.attributes} incrementFunction={addAttributeValue} />
+				<h2>Total : {this.state.attributes[0].value}</h2>
+				<AttributeTree tree={this.state.attributes} incrementFunction={this.addAttributeValue} />
       </div>
     );
   }

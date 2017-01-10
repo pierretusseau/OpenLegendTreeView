@@ -2,18 +2,11 @@ import React, { Component } from 'react';
 
 
 class Button extends Component {
-  constructor() {
-		super();
-		this.state = {
-			quantity: 0
-		};
-  }
 
-  addToCart() {
-		if(this.state.quantity < 9) {
-			this.setState({
-				quantity: this.state.quantity + 1
-			});
+  addToAttribute() {
+		console.log("Button : AddToCart");
+		if(this.props.value < 9) {
+			this.props.incrementFunction(this.props.name);
 		}
   }
 
@@ -26,10 +19,19 @@ class Button extends Component {
   }
 
   render() {
+		// console.log(this.props)
     return (
-			<button onClick={() =>  this.addToCart()} onContextMenu={() => this.deleteFromCart()} type="button" className="btn btn-primary btn-lg btn-block">{this.props.name}<br/>{this.state.quantity}</button>
+			<button onClick={() => this.addToAttribute()}
+				type="button"
+				className="btn btn-primary btn-lg btn-block">
+					{this.props.name}
+					<br/>
+					{this.props.value}
+			</button>
     );
   }
 }
 
 export default Button;
+
+//onContextMenu={() => this.deleteFromCart()}

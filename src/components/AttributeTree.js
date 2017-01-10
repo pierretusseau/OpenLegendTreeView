@@ -3,10 +3,9 @@ import React, { Component } from 'react';
 import Button from "./AttributeTree/Button";
 import SkillTree from "./AttributeTree/SkillTree.js";
 
-
 class AttributeTree extends Component {
 	getAttributeByCategory(array, categoryName) {
-		return array.filter(s => s.category === categoryName).map(attribute => <Button name={attribute.name} key={attribute.id} value={attribute.value} />);
+		return array.filter(s => s.category === categoryName).map(attribute => <Button name={attribute.name} value={attribute.value} key={attribute.id} incrementFunction={this.props.incrementFunction} />);
 	}
 
   render() {
@@ -32,7 +31,7 @@ class AttributeTree extends Component {
 				<hr/>
 				<div>
 					<h2>Test</h2>
-					<h3>{}</h3>
+					<h3>Test</h3>
 					<SkillTree attributes={attributeArray}/>
 				</div>
 			</div>
