@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import PeopleContainer from './components/PeopleContainer';
 
 import AttributeTree from "./components/AttributeTree.js";
 // import Test from "./components/Test.js";
@@ -157,6 +158,7 @@ class App extends Component {
           Pour commencer, edit <code>src/App.js</code> and save to reload.
         </p>
 				<AttributeTree tree={store}/>
+				<PeopleContainer />
       </div>
     );
   }
