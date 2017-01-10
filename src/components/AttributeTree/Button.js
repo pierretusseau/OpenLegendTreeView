@@ -27,7 +27,7 @@ class Button extends Component {
 
   render() {
     return (
-			<button onClick={() => this.addToCart()} onContextMenu={() => this.deleteFromCart()} type="button" className="btn btn-primary btn-lg btn-block">{this.props.name}<br/>{this.state.quantity}</button>
+			<button onClick={() =>  this.addToCart()} onContextMenu={() => this.deleteFromCart()} type="button" className="btn btn-primary btn-lg btn-block">{this.props.name}<br/>{this.state.quantity}</button>
     );
   }
 }
