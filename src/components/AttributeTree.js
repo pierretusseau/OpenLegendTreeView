@@ -5,12 +5,12 @@ import SkillTree from "./AttributeTree/SkillTree.js";
 
 
 class AttributeTree extends Component {
-	getAttributeByCategory(array,categoryName) {
-		return array.filter(s => s.category === categoryName).map( attribute => <Button name={attribute.name} key={attribute.id} value={attribute.value}/>)
+	getAttributeByCategory(array, categoryName) {
+		return array.filter(s => s.category === categoryName).map(attribute => <Button name={attribute.name} key={attribute.id} value={attribute.value} />);
 	}
+
   render() {
-		const attributeArray = this.props.tree
-		let charAttribute = attributeArray;
+		const attributeArray = this.props.tree;
     return (
 			<div id="AttributeTree">
 				<div>
@@ -33,7 +33,7 @@ class AttributeTree extends Component {
 				<div>
 					<h2>Test</h2>
 					<h3>{}</h3>
-					<SkillTree attributes={charAttribute}/>
+					<SkillTree attributes={attributeArray}/>
 				</div>
 			</div>
     );
