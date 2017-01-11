@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 
 import AttributeTree from "./components/AttributeTree.js";
-// import Skill from "./components/AttributeTree/SkillTree/Skill.js";
+import SkillTree from "./components/SkillTree.js";
 
 const initialAttributes = [
 	{
@@ -22,7 +22,7 @@ const initialAttributes = [
 	},
 	{
 		id:						2,
-		name: '				Might',
+		name: 				'Might',
 		category: 		'Physical',
 		definition: 	"Wear heavy armor, swing a maul, jump over a chasm, break down a door, wrestle a foe to submission",
 		value:				0
@@ -36,7 +36,7 @@ const initialAttributes = [
 	},
 	{
 		id:						4,
-		name: '				Logic',
+		name: 				'Logic',
 		category: 		'Mental',
 		definition: 	"Solve riddles, decipher a code, improvise a tool, understand the enemy’s strategy, find a loophole",
 		value:				0
@@ -50,7 +50,7 @@ const initialAttributes = [
 	},
 	{
 		id:						6,
-		name: '				Will',
+		name: 				'Will',
 		category: 		'Mental',
 		definition: 	"Maintain your resolve, overcome adversity, resist torture, stay awake on watch, stave off insanity",
 		value:				0
@@ -133,6 +133,32 @@ const initialAttributes = [
 		value:				0
 	},
 ];
+const skillList = [
+	{
+		id:						0,
+		name: 				'Skill de base',
+		category:			'General',
+		definition: 	"Dodge attacks, move with stealth, perform acrobatics, shoot a bow, pick a pocket",
+		avaible:			true
+	},
+	{
+		id:						1,
+		name: 				'Skill spécialisé',
+		category:			'Agility',
+		definition: 	"Resist poison, shrug off pain, survive in a desert, wear heavy armor",
+		prerequis:    [
+										{
+											name : "Agility",
+											value : 1
+										},
+										{
+											name : "Might",
+											value : 1
+										},
+									],
+		avaible:			false
+	}
+];
 
 class App extends Component {
 	constructor(props) {
@@ -148,15 +174,17 @@ class App extends Component {
 
 		this.state = {
 			attributes: initialAttributes,
+			skills: skillList
 		};
 
 		this.addAttributeValue = this.addAttributeValue.bind(this);
+		this.lessAttributeValue = this.lessAttributeValue.bind(this);
+		this.resetAttributeValue = this.resetAttributeValue.bind(this);
 	}
 
 	addAttributeValue(attributeName) {
-		console.log("App : addAttributeValue");
 		const oldAttributes = this.state.attributes;
-		const newAttributes = this.state.attributes.map(s => {
+		const newAttributes = oldAttributes.map(s => {
 			if (s.name === attributeName) {
 				return Object.assign({}, s, { value: s.value + 1 });
 			} else {
@@ -167,9 +195,49 @@ class App extends Component {
 			attributes: newAttributes,
 		});
 	}
+	lessAttributeValue(attributeName) {
+		const oldAttributes = this.state.attributes;
+		const newAttributes = oldAttributes.map(s => {
+			if (s.name === attributeName) {
+				return Object.assign({}, s, { value: s.value - 1 });
+			} else {
+				return s;
+			}
+		});
+		this.setState({
+			attributes: newAttributes,
+		});
+	}
+	resetAttributeValue() {
+		const oldAttributes = this.state.attributes;
+		const newAttributes = oldAttributes.map(s => {
+			return Object.assign({}, s, {value : 0})
+		});
+		this.setState({
+			attributes: newAttributes,
+		});
+	}
+	skillHasPrerequis(skill,attributes) {
+		const thisSkillPrerequis = [];
+		const thisSkillPrerequisLevel = (skill.prerequis.map(pre => pre.value).reduce((a,b) => (a+b)))/(skill.prerequis.length);
+		skill.prerequis.map(pre => thisSkillPrerequis.push(pre.name))
+		// Si il y a des prérequis
+		const isThisSkillAvaible = thisSkillPrerequis.map(pre => {
+			// filtrer ces prérequis
+			attributes.filter(a => a.name === pre).map(a => {
+				// Si attribute >= sur n'importe quel prérequis
+				if(a.value>=thisSkillPrerequisLevel) {
+					// return "avaible = true"
+					return "caca";
+				}
+			});
+		})
+	}
+
 
   render() {
-		// console.log(this.state.attributes[0].name)
+		console.log(this.skillHasPrerequis(this.state.skills[1], this.state.attributes))
+		// console.log(this.skillHasPrerequis(this.state.skills[0],"prerequis"))
     return (
       <div className="App">
         <div className="App-header">
@@ -179,8 +247,16 @@ class App extends Component {
         <p className="App-intro">
           Pour commencer, edit <code>src/App.js</code> and save to reload.
         </p>
-				<h2>Total : {this.state.attributes[0].value}</h2>
-				<AttributeTree tree={this.state.attributes} incrementFunction={this.addAttributeValue} />
+				<AttributeTree
+					tree={this.state.attributes}
+					incrementFunction={this.addAttributeValue}
+					decrementFunction={this.lessAttributeValue}
+					resetFunction={this.resetAttributeValue}
+				/>
+				<hr/>
+				<SkillTree
+					skills={this.state.skills}
+				/>
       </div>
     );
   }

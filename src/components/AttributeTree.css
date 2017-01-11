@@ -1,0 +1,27 @@
+.category--block {
+	display: inline-block;
+	max-width: 30%;
+	margin: 10px;
+	padding:10px;
+}
+
+.category--block h2 {
+	text-transform: uppercase;
+}
+
+#Physical {
+	background:red;
+}
+#Mental {
+	background:blue;
+}
+#Social {
+	background:green;
+}
+
+#Extraordinary {
+	background:grey;
+	min-width: 100%;
+	padding: 10px 0;
+	margin: 0;
+}

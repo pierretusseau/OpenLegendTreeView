@@ -8,6 +8,11 @@
 	margin:20px;
 	border:black solid 1px;
 }
+
+.skill--block.avaible {
+	background:rgba(0,255,0,0.5);
+}
+
 .skill--block-wrapper {
 	line-height: 20px;
 }
