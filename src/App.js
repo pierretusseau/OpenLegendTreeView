@@ -159,6 +159,20 @@ const skillList = [
 									],
 		avaible:			false,
 		selected:			false
+	},
+	{
+		id:						2,
+		name: 				'Skill spécialisé 2',
+		category:			'Agility',
+		definition: 	"Resist poison, shrug off pain, survive in a desert, wear heavy armor",
+		prerequis:    [
+										{
+											name : "Agility",
+											value : 4
+										}
+									],
+		avaible:			false,
+		selected:			false
 	}
 ];
 
@@ -226,9 +240,9 @@ class App extends Component {
 		// Si il y a des prérequis
 		const isThisSkillAvaible = thisSkillPrerequis.map(pre => {
 			// filtrer ces prérequis
-			attributes.filter(a => a.name === pre).map(a => {
+			attributes.filter(a => a.name === pre).map(attr => {
 				// Si attribute >= sur n'importe quel prérequis
-				if(a.value>=thisSkillPrerequisLevel) {
+				if(attr.value>=thisSkillPrerequisLevel) {
 					// return "avaible = true"
 					return "caca";
 				}
