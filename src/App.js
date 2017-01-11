@@ -180,11 +180,11 @@ class App extends Component {
 	constructor(props) {
 		super(props);
 
-		document.oncontextmenu = function(e) {
+		// Prevent click
+		document.onClick = function(e) {
 			e.preventDefault();
 		}
-
-		document.onClick = function(e) {
+		document.oncontextmenu = function(e) {
 			e.preventDefault();
 		}
 
@@ -210,6 +210,7 @@ class App extends Component {
 		this.setState({
 			attributes: newAttributes,
 		});
+		this.skillHasPrerequis(newAttributes);
 	}
 	lessAttributeValue(attributeName) {
 		const oldAttributes = this.state.attributes;
@@ -223,6 +224,7 @@ class App extends Component {
 		this.setState({
 			attributes: newAttributes,
 		});
+		this.skillHasPrerequis(newAttributes);
 	}
 	resetAttributeValue() {
 		const oldAttributes = this.state.attributes;
@@ -232,28 +234,53 @@ class App extends Component {
 		this.setState({
 			attributes: newAttributes,
 		});
+		this.skillHasPrerequis(newAttributes);
 	}
-	skillHasPrerequis(skill,attributes) {
-		const thisSkillPrerequis = [];
-		const thisSkillPrerequisLevel = (skill.prerequis.map(pre => pre.value).reduce((a,b) => (a+b)))/(skill.prerequis.length);
-		skill.prerequis.map(pre => thisSkillPrerequis.push(pre.name))
-		// Si il y a des prérequis
-		const isThisSkillAvaible = thisSkillPrerequis.map(pre => {
-			// filtrer ces prérequis
-			attributes.filter(a => a.name === pre).map(attr => {
-				// Si attribute >= sur n'importe quel prérequis
-				if(attr.value>=thisSkillPrerequisLevel) {
-					// return "avaible = true"
-					return "caca";
+
+	skillHasPrerequis(attributes) {
+		const oldSkills = this.state.skills;
+		const newSkills = oldSkills.map(s => {
+			// if prérequis est présent
+			if(s.prerequis!==undefined) {
+				// Définir le niveau de prérequis
+				const prerequisLevel = s.prerequis.map(pre => pre.value).reduce((a,b)=>(a+b))/s.prerequis.length;
+				// Définir les id des attributs à vérifier
+				const prerequisAttributeArray = [];
+				const prerequisIds = s.prerequis.map(pre => {
+					const prerequisAttribute = pre.name;
+					const prerequisAttributeList = attributes.filter(a => a.name === prerequisAttribute)
+					prerequisAttributeList.map(attr => {
+						prerequisAttributeArray.push(attr.id)
+					});
+				});
+				// Vérifier si un des attribute requis est équivalent ou plus grand que le niveau de prérequis
+				const isPrerequisValidation = prerequisAttributeArray.map(prere => {
+					if(attributes[prere].value >= prerequisLevel) {
+						return true;
+					} else {
+						return false;
+					}
+				});
+				const isPrerequisValidated  = isPrerequisValidation.reduce((a,b)=>(a+b));
+				// vérifier si l'agilité est équivalent au niveau de prérequis
+				if((isPrerequisValidated > 0) || (isPrerequisValidated === true)) {
+					return Object.assign({}, s, {avaible : true});
+				} else {
+					return Object.assign({}, s)
 				}
-			});
-		})
+			} else {
+				return Object.assign({}, s);
+			}
+		});
+		this.setState({
+			skills: newSkills,
+		});
 	}
 
-
+	// console.log(this.skillHasPrerequis(this.state.attributes))
+	// console.log("Est-ce que ma Skill spécialisé est disponible : "+this.state.skills[1].avaible);
   render() {
-		console.log(this.skillHasPrerequis(this.state.skills[1], this.state.attributes))
-		// console.log(this.skillHasPrerequis(this.state.skills[0],"prerequis"))
+		// console.log(this.state.skills)
     return (
       <div className="App">
         <div className="App-header">
