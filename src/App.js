@@ -139,7 +139,8 @@ const skillList = [
 		name: 				'Skill de base',
 		category:			'General',
 		definition: 	"Dodge attacks, move with stealth, perform acrobatics, shoot a bow, pick a pocket",
-		avaible:			true
+		avaible:			true,
+		selected:			false
 	},
 	{
 		id:						1,
@@ -156,7 +157,8 @@ const skillList = [
 											value : 1
 										},
 									],
-		avaible:			false
+		avaible:			false,
+		selected:			false
 	}
 ];
 
