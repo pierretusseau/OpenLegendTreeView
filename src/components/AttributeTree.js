@@ -34,8 +34,15 @@ class AttributeTree extends Component {
 					<h2>Extraordinary : {this.totalCategory(attributeArray,'Extraordinary')}</h2>
 					{this.getAttributeByCategory(attributeArray,'Extraordinary')}
 				</div>
-				<Reset name="reset"
+				<Reset
+					name="Reset All"
+					type="all"
 					resetFunction={this.props.resetFunction}
+				/>
+				<Reset
+					name="Reset Skills"
+					type="skills"
+					resetSkills={this.props.resetSkills}
 				/>
 			</div>
     );

@@ -4,8 +4,14 @@ import './Reset.css';
 
 class Button extends Component {
 
-	resetAttribute() {
-		this.props.resetFunction();
+	resetCall() {
+		const buttonType = this.props.type;
+		if(buttonType === "all") {
+			this.props.resetFunction();
+		}
+		if(buttonType === "skills") {
+			this.props.resetSkills();
+		}
   }
 
 
@@ -14,7 +20,7 @@ class Button extends Component {
     return (
 			<button
 				id="ResetButton"
-				onClick={() => this.resetAttribute()}
+				onClick={() => this.resetCall()}
 				className="btn btn-primary btn-lg btn-block">
 					{this.props.name}
 			</button>

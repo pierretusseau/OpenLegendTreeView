@@ -6,7 +6,7 @@ import './SkillTree.css';
 class SkillTree extends Component {
 
 	getSkillsByCategory(array, categoryName) {
-		return array.filter(a => a.category === categoryName).map(skill => <Skill name={skill.name} key={skill.id} avaible={skill.avaible} selected={skill.selected} isSkillSelected={this.props.isSkillSelected}/>);
+		return array.filter(a => a.category === categoryName).map(skill => <Skill key={skill.id} name={skill.name} description={skill.description} avaible={skill.avaible} selected={skill.selected} isSkillSelected={this.props.isSkillSelected} isSkillDeselected={this.props.isSkillDeselected}/>);
 	}
 
   render() {

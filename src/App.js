@@ -306,6 +306,8 @@ class App extends Component {
 		this.lessAttributeValue = this.lessAttributeValue.bind(this);
 		this.resetAttributeValue = this.resetAttributeValue.bind(this);
 		this.isSkillSelected = this.isSkillSelected.bind(this);
+		this.isSkillDeselected = this.isSkillDeselected.bind(this);
+		this.resetSkills = this.resetSkills.bind(this);
 	}
 
 	// Attributes
@@ -338,12 +340,8 @@ class App extends Component {
 		this.isSkillNoAvaible(newAttributes);
 	}
 	resetAttributeValue() {
-		const oldAttributes = this.state.attributes;
-		const newAttributes = oldAttributes.map(s => {
-			return Object.assign({}, s, {value : 0})
-		});
 		this.setState({
-			attributes: newAttributes,
+			attributes: initialAttributes,
 			skills: skillList
 		});
 	}
@@ -433,7 +431,7 @@ class App extends Component {
 	isSkillSelected(skillName) {
 		const oldSkills = this.state.skills;
 		const newSkills = oldSkills.map(s => {
-			if (s.name === skillName) {
+			if ((s.name === skillName) && (s.avaible === true)) {
 				return Object.assign({}, s, { selected: true });
 			} else {
 				return s;
@@ -441,6 +439,28 @@ class App extends Component {
 		});
 		this.setState({
 			skills: newSkills,
+		});
+	}
+	isSkillDeselected(skillName) {
+		const oldSkills = this.state.skills;
+		const newSkills = oldSkills.map(s => {
+			if ((s.name === skillName) && (s.selected === true)) {
+				return Object.assign({}, s, { selected: false });
+			} else {
+				return s;
+			}
+		});
+		this.setState({
+			skills: newSkills,
+		});
+	}
+	resetSkills() {
+		const oldSkills = this.state.skills;
+		const newSkills = oldSkills.map(s => {
+			return Object.assign({}, s, { selected: false });
+		});
+		this.setState({
+			skills: newSkills
 		});
 	}
 	// console.log(this.isSkillAvaible(this.state.attributes))
@@ -461,11 +481,13 @@ class App extends Component {
 					incrementFunction={this.addAttributeValue}
 					decrementFunction={this.lessAttributeValue}
 					resetFunction={this.resetAttributeValue}
+					resetSkills={this.resetSkills}
 				/>
 				<hr/>
 				<SkillTree
 					skills={this.state.skills}
 					isSkillSelected={this.isSkillSelected}
+					isSkillDeselected={this.isSkillDeselected}
 				/>
       </div>
     );

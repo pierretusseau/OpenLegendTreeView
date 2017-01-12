@@ -1,13 +1,14 @@
 .skill {
 	display:inline-block;
 	margin:10px;
+	max-width:40%;
+	vertical-align: top;
 }
 
 .skill,
 .skill--block {
 	min-height:100px;
 	min-width: 150px;
-	max-width:40%;
 }
 
 .skill button {
@@ -16,7 +17,6 @@
 	padding:10px;
 	text-align: center;
 	border:black solid 5px;
-	vertical-align: middle;
 	opacity:0.5;
 	transition: ease-in-out 0.2s;
 }

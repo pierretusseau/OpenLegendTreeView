@@ -21,6 +21,11 @@ class Skill extends Component {
 			this.props.isSkillSelected(this.props.name);
 		}
   }
+	deselectSkill() {
+		if(this.props.selected === true) {
+			this.props.isSkillDeselected(this.props.name);
+		}
+  }
 
   render() {
     return (
@@ -28,9 +33,11 @@ class Skill extends Component {
 				<button
 					className={this.skillClass(this.props.avaible, this.props.selected)}
 					onClick={() => this.selectSkill()}
+					onContextMenu={() => this.deselectSkill()}
 				>
 					<div className="skill--block-wrapper">
 						<h3>{this.props.name}</h3>
+						<p>{this.props.description}</p>
 					</div>
 				</button>
 			</div>
