@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import logo from './logo.png';
 import './App.css';
 
 import AttributeTree from "./components/AttributeTree.js";
@@ -471,11 +471,8 @@ class App extends Component {
       <div className="App">
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+					<h2>OpenLegend - Feats TreeView</h2>
         </div>
-        <p className="App-intro">
-          Pour commencer, edit <code>src/App.js</code> and save to reload.
-        </p>
 				<AttributeTree
 					tree={this.state.attributes}
 					incrementFunction={this.addAttributeValue}
@@ -483,7 +480,6 @@ class App extends Component {
 					resetFunction={this.resetAttributeValue}
 					resetSkills={this.resetSkills}
 				/>
-				<hr/>
 				<SkillTree
 					skills={this.state.skills}
 					isSkillSelected={this.isSkillSelected}

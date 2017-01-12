@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import './Button.css';
 
 class Button extends Component {
 
@@ -26,7 +27,7 @@ class Button extends Component {
 				className="btn btn-primary btn-lg btn-block">
 					{this.props.name}
 					<br/>
-					{this.props.value}
+					<span className="ButtonValue">{this.props.value}</span>
 			</button>
     );
   }

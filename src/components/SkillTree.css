@@ -1,13 +1,19 @@
 .SkillTable {
+	position:relative;
 	margin: 10px;
 	padding:10px;
 	display: inline-block;
 	vertical-align: top;
+	background:green;
+}
+.SkillTableWrapper {
+	display: flex;
+	flex-flow: column wrap;
 }
 
 #NoPrerequisTable {
 	background:rgba(0,0,0,0.15);
-	max-width: 50%;
+	max-width: 20%;
 }
 
 #PhysicalTable {

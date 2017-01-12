@@ -6,22 +6,25 @@ import './SkillTree.css';
 class SkillTree extends Component {
 
 	getSkillsByCategory(array, categoryName) {
-		return array.filter(a => a.category === categoryName).map(skill => <Skill key={skill.id} name={skill.name} description={skill.description} avaible={skill.avaible} selected={skill.selected} isSkillSelected={this.props.isSkillSelected} isSkillDeselected={this.props.isSkillDeselected}/>);
+		return array.filter(a => a.category === categoryName).map(skill => <Skill key={skill.id} name={skill.name} cost={skill.cost} description={skill.description} avaible={skill.avaible} selected={skill.selected} isSkillSelected={this.props.isSkillSelected} isSkillDeselected={this.props.isSkillDeselected}/>);
 	}
 
   render() {
 		const skillList = this.props.skills;
     return (
-			<div>
+			<div id="SkillTree">
 				<div id="NoPrerequisTable" className="SkillTable">
 					<h2>No prerequis</h2>
-					{this.getSkillsByCategory(skillList,'No Prerequis')}
+					<div className="SkillTableWrapper">
+						{this.getSkillsByCategory(skillList,'No Prerequis')}
+					</div>
 				</div>
 				<div id="PhysicalTable" className="SkillTable">
-					<h2>Physical</h2>
-					{this.getSkillsByCategory(skillList,'Agility')}
+					<h2>With Prerequis</h2>
+					<div className="SkillTableWrapper">
+						{this.getSkillsByCategory(skillList,'Agility')}
+					</div>
 				</div>
-
 			</div>
     );
   }

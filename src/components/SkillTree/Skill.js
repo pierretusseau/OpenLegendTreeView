@@ -29,17 +29,16 @@ class Skill extends Component {
 
   render() {
     return (
-			<div className="skill">
-				<button
-					className={this.skillClass(this.props.avaible, this.props.selected)}
-					onClick={() => this.selectSkill()}
-					onContextMenu={() => this.deselectSkill()}
-				>
-					<div className="skill--block-wrapper">
-						<h3>{this.props.name}</h3>
-						<p>{this.props.description}</p>
-					</div>
-				</button>
+			<div
+				className={this.skillClass(this.props.avaible, this.props.selected)}
+				onClick={() => this.selectSkill()}
+				onContextMenu={() => this.deselectSkill()}
+			>
+				<div className="skill--block-wrapper">
+					<h3>{this.props.name}</h3>
+					<p className="skill--block-description">{this.props.description}</p>
+					<p className="skill--block-cost">{this.props.cost}</p>
+				</div>
 			</div>
     );
   }
