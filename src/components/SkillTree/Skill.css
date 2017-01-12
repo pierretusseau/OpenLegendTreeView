@@ -1,19 +1,39 @@
-.skill--block {
+.skill {
 	display:inline-block;
+	margin:10px;
+}
+
+.skill,
+.skill--block {
+	min-height:100px;
+	min-width: 150px;
+	max-width:40%;
+}
+
+.skill button {
 	background:rgba(0,0,0,0.5);
-	height:200px;
-	width:200px;
 	line-height: 200px;
+	padding:10px;
 	text-align: center;
-	margin:20px;
-	border:black solid 1px;
+	border:black solid 5px;
 	vertical-align: middle;
+	opacity:0.5;
+	transition: ease-in-out 0.2s;
 }
 
 .skill--block.avaible {
-	background:rgba(0,255,0,0.5);
+	opacity:0.75;
+	border:black dashed 3px;
+}
+.skill--block.selected {
+	opacity:0.75;
+	border:black solid 3px;
+	background:rgba(0,255,0,0.15);
 }
 
 .skill--block-wrapper {
 	line-height: 20px;
+}
+.skill--block-wrapper h3 {
+	font-size:  9pt;
 }
