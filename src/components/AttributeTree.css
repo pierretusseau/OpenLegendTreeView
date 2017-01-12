@@ -25,16 +25,21 @@
 	position:relative;
 	top: -10px;
 	border-radius: 0% 0% 5px 5px;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
 }
 
-#Physical {
-	background-color:red;
+#Physical h2 {
+	color: #d33b23; /* Will override color (regardless of order) */
 }
-#Mental {
-	background-color:blue;
+#Mental h2 {
+	color:#4268f4;
 }
-#Social {
-	background-color:green;
+#Social h2 {
+	color:#24af47;
+}
+#Extraordinary h2 {
+	color: #e8ae1e;
 }
 
 #Extraordinary {
