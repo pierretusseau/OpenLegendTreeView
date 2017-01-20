@@ -1,6 +1,8 @@
+
 .skill--block {
-	min-width: 100%;
-	margin-bottom: 10px;
+	width: 23%;
+	min-height: 200px;
+	margin: 10px auto;
 	background:rgba(0,0,0,0.5);
 	line-height: 200px;
 	padding:10px;
@@ -10,6 +12,10 @@
 	transition: ease-in-out 0.2s;
 	order: 1;
 	cursor: no-drop;
+}
+
+#NoPrerequisTable .skill--block {
+	width: 45%;
 }
 
 .skill--block.selected {

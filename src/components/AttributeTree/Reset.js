@@ -16,7 +16,6 @@ class Button extends Component {
 
 
   render() {
-		// console.log(this.props)
     return (
 			<button
 				id="ResetButton"

@@ -16,7 +16,6 @@ class Skill extends Component {
 	}
 
 	selectSkill() {
-		// console.log("Button : AddToCart");
 		if(this.props.selected === false) {
 			this.props.isSkillSelected(this.props.name);
 		}
@@ -37,7 +36,7 @@ class Skill extends Component {
 				<div className="skill--block-wrapper">
 					<h3>{this.props.name}</h3>
 					<p className="skill--block-description">{this.props.description}</p>
-					<p className="skill--block-cost">{this.props.cost}</p>
+					<p className="skill--block-cost">{this.props.cost[0]}</p>
 				</div>
 			</div>
     );

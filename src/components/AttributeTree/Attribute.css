@@ -1,0 +1,51 @@
+.btn-primary {
+	position:relative;
+	padding: 5px;
+	border:none;
+	background-color: rgba(255,255,255,0.75);
+	margin-right: 2px;
+	margin-bottom: 2px;
+	font-weight: bold;
+	cursor: pointer;
+  transition-duration: 0.4s;
+  overflow: hidden;
+	min-width: 50px;
+}
+
+.btn-primary:after,
+.btn-primary:before {
+  content: "";
+  display: block;
+	width:100%;
+	height:100px;
+  position: absolute;
+	bottom:0px; left:0;
+  opacity: 0;
+  transition: all 0.8s
+}
+.btn-primary:after {
+  background: rgba(0,255,0,0.5);
+}
+.btn-primary:before {
+  background: rgba(255,0,0,0.5);
+}
+.btn-primary:active:after {
+	bottom:-100px;
+	opacity: 1;
+	transition: 0s;
+}
+
+.ButtonValue {
+	font-size: 15pt;
+}
+
+.decreaseAttribute {
+	width:100%;
+	height:100%;
+	position:absolute;
+	top:0px;
+	left:0;
+	background:red;
+	transition: ease-in-out 0.4s;
+	opacity:0;
+}

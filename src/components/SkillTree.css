@@ -8,14 +8,20 @@
 }
 .SkillTableWrapper {
 	display: flex;
-	flex-flow: column wrap;
+	flex-flow: row wrap;
 }
 
 #NoPrerequisTable {
 	background:rgba(0,0,0,0.15);
-	max-width: 20%;
+	max-width: 30%;
+}
+#NoPrerequisTable .SkillTableWrapper {
 }
 
-#PhysicalTable {
+#OtherTable {
 	background:rgba(255,0,0,0.15);
+	max-width: 65%;
+}
+#OtherTable .SkillTableWrapper {
+	justify-content: space-between;
 }

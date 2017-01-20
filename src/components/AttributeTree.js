@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 
-import Button from "./AttributeTree/Button";
+import Button from "./AttributeTree/Attribute";
 import Reset from "./AttributeTree/Reset";
+// Import des images
 import PhysicalImg from "./AttributeTree/backgrounds/physical.jpg";
 import MentalImg from "./AttributeTree/backgrounds/mental.jpg";
 import SocialImg from "./AttributeTree/backgrounds/social.jpg";
