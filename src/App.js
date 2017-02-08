@@ -145,9 +145,9 @@ class App extends Component {
 		document.onClick = function(e) {
 			e.preventDefault();
 		}
-		document.oncontextmenu = function(e) {
-			e.preventDefault();
-		}
+		// document.oncontextmenu = function(e) {
+		// 	e.preventDefault();
+		// }
 
 		this.state = {
 			attributes: initialAttributes,

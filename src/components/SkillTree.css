@@ -25,3 +25,15 @@
 #OtherTable .SkillTableWrapper {
 	justify-content: space-between;
 }
+
+#SelectedSkillTree .SkillTableWrapper {
+	background:rgba(0,0,0,0.15);
+	margin: 10px 40px;
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: center;
+}
+
+#SelectedSkillTree .skill--block {
+	margin:10px;
+}

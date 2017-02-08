@@ -46,6 +46,13 @@ class SkillTree extends Component {
 		// const skillList = this.props.skills;
     return (
 			<div id="SkillTree">
+				<h2>Your Skills</h2>
+				<SkillList
+					title={"SelectedSkillTree"}
+					skills={this.props.skills}
+					isSkillSelected={this.props.isSkillSelected}
+					isSkillDeselected={this.props.isSkillDeselected}
+				/>
 				<SkillList
 					title={"No Prerequisite"}
 					skills={this.props.skills}

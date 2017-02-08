@@ -19,12 +19,16 @@
 }
 
 .skill--block.selected {
-	opacity:0.75;
+	opacity:1;
 	border:black solid 3px;
-	background:rgba(0,255,0,0.15);
-	order: -1;
+	background:rgba(240,240,240,1);
+	/*order: -1;*/
 	cursor: pointer;
 }
+.SkillTable .skill--block.selected {
+	display:none;
+}
+
 .skill--block.avaible {
 	opacity:0.75;
 	border:black dashed 3px;
@@ -44,7 +48,8 @@
 	font-size:  8pt;
 }
 
-.skill--block-description {
+.skill--block-description,
+#SelectedSkillTree p:not(.skill--block-cost) { /* :not exclus la class sélectionnée */
 	line-height: 9pt;
 	text-align: left;
 }
