@@ -8,7 +8,7 @@ class SkillSpecial extends Component {
 		return(
 			<div>
 				<h4>Special</h4>
-				<p className="skill--block-special">{this.props.special}</p>
+				<p className="skill--block-special" dangerouslySetInnerHTML={{__html: this.props.special}}></p>
 			</div>
 		);
 	}

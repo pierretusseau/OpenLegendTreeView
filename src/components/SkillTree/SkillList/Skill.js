@@ -55,9 +55,9 @@ class Skill extends Component {
 		} else {
 			return (
 				<div
-				className={this.skillClass(this.props.avaible, this.props.selected)}
-				onClick={() => this.selectSkill()}
-				onContextMenu={() => this.deselectSkill()}
+					className={this.skillClass(this.props.avaible, this.props.selected)}
+					onClick={() => this.selectSkill()}
+					onContextMenu={() => this.deselectSkill()}
 				>
 				<div className="skill--block-wrapper">
 				<h3>{this.props.name}</h3>
@@ -65,7 +65,7 @@ class Skill extends Component {
 				<p className="skill--block-description">{this.props.description}</p>
 				<hr/>
 				<h4>Effect</h4>
-				<p className="skill--block-effect">{this.props.effect}</p>
+				<p className="skill--block-effect" dangerouslySetInnerHTML={{__html: this.props.effect}}></p>
 				{this.hasSpecial()}
 				<p className="skill--block-cost">{this.props.cost[0]}</p>
 				</div>
