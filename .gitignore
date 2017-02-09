@@ -13,7 +13,3 @@ build
 .DS_Store
 .env
 npm-debug.log
-
-# Sass index file
-src/index-sass.css
-public/index-sass.css

@@ -7,17 +7,13 @@
   },
   "dependencies": {
     "axios": "^0.15.3",
-    "concurrently": "^3.1.0",
-    "gulp": "^3.9.1",
-    "gulp-concat": "^2.6.1",
-    "gulp-sass": "^3.1.0",
     "js-yaml": "^3.7.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2"
   },
   "scripts": {
-    "start": "concurrently --kill-others \"gulp\" \"react-scripts start\"",
-    "build": "gulp sass && react-scripts build",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }
