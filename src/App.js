@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Axios from 'axios';
 import yaml from 'js-yaml';
 import logo from './logo.png';
-import './App.css';
 
 import AttributeTree from "./components/AttributeTree.js";
 import SkillTree from "./components/SkillTree.js";
