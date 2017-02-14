@@ -36,6 +36,7 @@ class SkillList extends Component {
 					key={skill.id}
 					name={skill.name}
 					cost={skill.cost}
+					attributesNeeded={skill.prerequisites.tier1.Attribute}
 					description={skill.description}
 					effect={skill.effect}
 					special={skill.special}
