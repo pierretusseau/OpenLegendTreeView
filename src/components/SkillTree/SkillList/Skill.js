@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import SkillSpecial from "./Skill/SkillSpecial.js";
+import SkillAttributes from "./Skill/SkillAttributes.js";
 
 import './Skill.css';
 
@@ -16,15 +17,11 @@ class Skill extends Component {
 		}
 	}
 
-	selectSkill() {
-		if(this.props.selected === false) {
-			this.props.isSkillSelected(this.props.name);
-		}
+	skillLeftClick() {
+		this.props.addSkillValue(this.props.name);
   }
-	deselectSkill() {
-		if(this.props.selected === true) {
-			this.props.isSkillDeselected(this.props.name);
-		}
+	skillRightClick() {
+		this.props.lessSkillValue(this.props.name);
   }
 
 	hasSpecial() {
@@ -42,13 +39,17 @@ class Skill extends Component {
 	    return (
 				<div
 					className={this.skillClass(this.props.avaible, this.props.selected)}
-					onClick={() => this.selectSkill()}
-					onContextMenu={() => this.deselectSkill()}
+					onClick={() => this.skillLeftClick()}
+					onContextMenu={() => this.skillRightClick()}
 				>
 					<div className="skill--block-wrapper">
 						<h3>{this.props.name}</h3>
 						<p className="skill--block-description">{this.props.description}</p>
+						<SkillAttributes
+							attributes={[]}
+						/>
 						<p className="skill--block-cost">{this.props.cost[0]}</p>
+						<p className="skill--block-level">{this.props.skillLevel}</p>
 					</div>
 				</div>
 	    );
@@ -56,19 +57,23 @@ class Skill extends Component {
 			return (
 				<div
 					className={this.skillClass(this.props.avaible, this.props.selected)}
-					onClick={() => this.selectSkill()}
-					onContextMenu={() => this.deselectSkill()}
+					onClick={() => this.skillLeftClick()}
+					onContextMenu={() => this.skillRightClick()}
 				>
-				<div className="skill--block-wrapper">
-				<h3>{this.props.name}</h3>
-				<h4>Description</h4>
-				<p className="skill--block-description">{this.props.description}</p>
-				<hr/>
-				<h4>Effect</h4>
-				<p className="skill--block-effect" dangerouslySetInnerHTML={{__html: this.props.effect}}></p>
-				{this.hasSpecial()}
-				<p className="skill--block-cost">{this.props.cost[0]}</p>
-				</div>
+					<div className="skill--block-wrapper">
+						<h3>{this.props.name}</h3>
+						<h4>Description</h4>
+						<p className="skill--block-description">{this.props.description}</p>
+						<hr/>
+						<h4>Effect</h4>
+						<p className="skill--block-effect" dangerouslySetInnerHTML={{__html: this.props.effect}}></p>
+						{this.hasSpecial()}
+						<SkillAttributes
+							attributes={[]}
+						/>
+						<p className="skill--block-cost">{this.props.cost[0]}</p>
+						<p className="skill--block-level">{this.props.skillLevel}</p>
+					</div>
 				</div>
 			);
 		}

@@ -36,13 +36,15 @@ class SkillList extends Component {
 					key={skill.id}
 					name={skill.name}
 					cost={skill.cost}
+					attributesNeeded={skill.prerequisites.tier1.Attribute}
 					description={skill.description}
 					effect={skill.effect}
 					special={skill.special}
 					avaible={skill.avaible}
 					selected={skill.selected}
-					isSkillSelected={this.props.isSkillSelected}
-					isSkillDeselected={this.props.isSkillDeselected}
+					skillLevel={skill.skillLevel}
+					addSkillValue={this.props.addSkillValue}
+					lessSkillValue={this.props.lessSkillValue}
 					/>
 				);
 			});

@@ -1,5 +1,6 @@
 
 .skill--block {
+	z-index: 1;
 	width: 23%;
 	min-height: 200px;
 	margin: 10px auto;
@@ -12,6 +13,7 @@
 	transition: ease-in-out 0.2s;
 	order: 1;
 	cursor: no-drop;
+	position:relative;
 }
 
 #NoPrerequisTable .skill--block {
@@ -21,7 +23,7 @@
 .skill--block.selected {
 	opacity:1;
 	border:black solid 3px;
-	background:rgba(240,240,240,1);
+	background:rgba(0,150,0,0.15);
 	/*order: -1;*/
 	cursor: pointer;
 }
@@ -44,27 +46,59 @@
 	font-size:  9pt;
 }
 
-.skill--block-wrapper p {
+.skill--block-wrapper p:not(.skill--block-cost):not(.skill--block-level) { /* :not exclus la class sélectionnée */
 	font-size:  8pt;
 }
 
 .skill--block-description,
-#SelectedSkillTree p:not(.skill--block-cost) { /* :not exclus la class sélectionnée */
+#SelectedSkillTree p:not(.skill--block-cost):not(.skill--block-level) { /* :not exclus la class sélectionnée */
 	line-height: 9pt;
 	text-align: left;
 }
 
-.skill--block-cost {
-	background: red;
+.skill--block-cost,
+.skill--block-level {
 	display: block;
-	height:25px;
-	width:25px;
-	color:white;
-	border-radius: 50%;
-	text-align: center;
-	line-height: 25px;
-	font-weight: bold;
 	position: absolute;
+	border-radius: 50%;
+	border:2px solid white;
+	text-align: center;
+}
+
+.skill--block-cost {
 	top:-45px;
 	right:-20px;
+	background: rgba(255,0,0,0.75);
+	color:white;
+	font-weight: bold;
+	height:25px;
+	font-size: 9pt;
+	width:25px;
+	line-height: 22px;
+}
+.skill--block-cost[data-descr]:hover::after {
+	content:"Skill cost";
+	/*opacity:0;*/
+	z-index: 99;
+	transition: linear 0.4s;
+	position: absolute;
+	top:0;
+	left:25px;
+	background:red;
+	display:block;
+	min-width:100px;
+	max-width: 200px;
+}
+
+.skill--block-level {
+	top:-45px;
+	left:0;
+	right:0;
+	height:40px;
+	width:40px;
+	margin:auto;
+	background: rgba(255,175,0,1);
+	font-size: 15pt;
+	font-weight: bold;
+	line-height: 37px;
 }
