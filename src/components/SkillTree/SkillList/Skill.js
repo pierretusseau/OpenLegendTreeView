@@ -59,9 +59,8 @@ class Skill extends Component {
 					onClick={() => this.skillLeftClick()}
 					onContextMenu={() => this.skillRightClick()}
 				>
+					<h3>{this.props.name}</h3>
 					<div className="skill--block-wrapper">
-						<h3>{this.props.name}</h3>
-						<h4>Description</h4>
 						<p className="skill--block-description">{this.props.description}</p>
 						<hr/>
 						<h4>Effect</h4>

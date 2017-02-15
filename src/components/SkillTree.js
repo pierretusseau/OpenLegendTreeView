@@ -46,7 +46,6 @@ class SkillTree extends Component {
 		// const skillList = this.props.skills;
     return (
 			<div id="SkillTree">
-				<h2>Your Skills</h2>
 				<SkillList
 					title={"SelectedSkillTree"}
 					skills={this.props.skills}

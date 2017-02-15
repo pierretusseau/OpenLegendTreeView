@@ -156,14 +156,14 @@ class App extends Component {
 
 		this.addAttributeValue = this.addAttributeValue.bind(this);
 		this.lessAttributeValue = this.lessAttributeValue.bind(this);
-		this.resetAttributeValue = this.resetAttributeValue.bind(this);
+		this.resetAllAttr = this.resetAllAttr.bind(this);
 		this.addSkillValue = this.addSkillValue.bind(this);
 		this.lessSkillValue = this.lessSkillValue.bind(this);
 		this.resetSkills = this.resetSkills.bind(this);
 
 		let id = 0
 		// Définir le tableau des skills
-		Axios.get('https://raw.githubusercontent.com/KevinBacas/core-rules/master/feats/feats.yml').then(res => {
+		Axios.get('/feats.yml').then(res => {
 			const skillJson = yaml.load(res.data);
 			const skillInitialState = skillJson.map(s => {
 				// Si les tags ne sont pas null
@@ -216,13 +216,13 @@ class App extends Component {
 		});
 		this.isThisSkillNoAvaible(newAttributes);
 	}
-	resetAttributeValue() {
+	resetAllAttr() {
 		const oldValues = this.state.skills;
 		const newValues = oldValues.map(s => {
 			if(s.prerequisites.tier1.Attribute !== undefined) {
-				return Object.assign({}, s, {avaible: false, selected: false})
+				return Object.assign({}, s, {avaible: false, selected: false , skillLevel: 0, skillLevelAtMax: false})
 			} else {
-				return Object.assign({}, s, {selected: false})
+				return Object.assign({}, s, {selected: false , skillLevel: 0, skillLevelAtMax: false})
 			}
 		});
 		this.setState({
@@ -388,7 +388,7 @@ class App extends Component {
 	resetSkills() {
 		const oldSkills = this.state.skills;
 		const newSkills = oldSkills.map(s => {
-			return Object.assign({}, s, { selected: false });
+			return Object.assign({}, s, { selected: false , skillLevel: 0, skillLevelAtMax: false});
 		});
 		this.setState({
 			skills: newSkills
@@ -493,7 +493,7 @@ class App extends Component {
 				tree={this.state.attributes}
 				incrementFunction={this.addAttributeValue}
 				decrementFunction={this.lessAttributeValue}
-				resetFunction={this.resetAttributeValue}
+				resetFunction={this.resetAllAttr}
 				resetSkills={this.resetSkills}
 				/>
 				</div>
@@ -509,7 +509,7 @@ class App extends Component {
 				tree={this.state.attributes}
 				incrementFunction={this.addAttributeValue}
 				decrementFunction={this.lessAttributeValue}
-				resetFunction={this.resetAttributeValue}
+				resetFunction={this.resetAllAttr}
 				resetSkills={this.resetSkills}
 				/>
 				<SkillTree
