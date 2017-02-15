@@ -76,18 +76,27 @@
 	width:25px;
 	line-height: 22px;
 }
-.skill--block-cost[data-descr]:hover::after {
-	content:"Skill cost";
-	/*opacity:0;*/
+p[data-descr]::after {
+	content: attr(data-descr);
+	opacity:0;
 	z-index: 99;
 	transition: linear 0.4s;
 	position: absolute;
-	top:0;
-	left:25px;
-	background:red;
+	text-align: center;
+	top:-25px;
+	left:-100%;
+	margin:auto;
+	border-radius:20px;
+	background:rgba(0,0,0,0.75);
+	padding: 5px;
 	display:block;
+	font-size: 9pt;
+	line-height: 12px;
 	min-width:100px;
 	max-width: 200px;
+}
+p[data-descr]:hover::after {
+	opacity:1;
 }
 
 .skill--block-level {

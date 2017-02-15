@@ -48,8 +48,7 @@ class Skill extends Component {
 						<SkillAttributes
 							attributes={[]}
 						/>
-						<p className="skill--block-cost">{this.props.cost[0]}</p>
-						<p className="skill--block-level">{this.props.skillLevel}</p>
+						<p className="skill--block-cost" data-descr="Skill cost">{this.props.cost[0]}</p>
 					</div>
 				</div>
 	    );
@@ -71,8 +70,8 @@ class Skill extends Component {
 						<SkillAttributes
 							attributes={[]}
 						/>
-						<p className="skill--block-cost">{this.props.cost[0]}</p>
-						<p className="skill--block-level">{this.props.skillLevel}</p>
+						<p className="skill--block-cost" data-descr="Skill cost">{this.props.cost[0]}</p>
+						<p className="skill--block-level" data-descr="Skill level">{this.props.skillLevel}</p>
 					</div>
 				</div>
 			);

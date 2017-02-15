@@ -169,13 +169,13 @@ class App extends Component {
 				// Si les tags ne sont pas null
 				if((s.prerequisites.tier1.Attribute === undefined) && (s.prerequisites.tier1.Feat === undefined)){
 					id++;
-					return Object.assign({}, s, { id:(id-1) , selected: false , avaible: true , skillLevel:0});
+					return Object.assign({}, s, { id:(id-1) , selected: false , avaible: true , skillLevel:0 , skillLevelAtMax: false });
 				} else if ((s.prerequisites.tier1.Attribute === undefined) && (s.prerequisites.tier1.Feat !== undefined)) {
 					id++;
-					return Object.assign({}, s, { id:(id-1) , selected: false , avaible: false , skillLevel:0, featRequired: s.prerequisites.tier1.Feat[0]});
+					return Object.assign({}, s, { id:(id-1) , selected: false , avaible: false , skillLevel:0 , skillLevelAtMax: false , featRequired: s.prerequisites.tier1.Feat[0]});
 				} else {
 					id++;
-					return Object.assign({}, s, { id:(id-1) , selected: false , avaible: false , skillLevel:0});
+					return Object.assign({}, s, { id:(id-1) , selected: false , avaible: false , skillLevel:0 , skillLevelAtMax: false });
 				}
 			})
 			// Envoyer tout ce bordel dans le state
@@ -355,9 +355,14 @@ class App extends Component {
 	addSkillValue(skillName) {
 		const oldSkills = this.state.skills;
 		const newSkills = oldSkills.map(s => {
-			if ((s.name === skillName) && (s.avaible === true)) {
-				return Object.assign({}, s, { selected: true , skillLevel: s.skillLevel+1});
-			} else {
+			const maxSkillLevel = Object.keys(s.prerequisites).length;
+			if ((s.name === skillName) && (s.avaible === true) && (s.skillLevel < (maxSkillLevel))) {
+				if(s.skillLevel === (maxSkillLevel - 1)) {
+					return Object.assign({}, s, { selected: true , skillLevel: s.skillLevel+1 , skillLevelAtMax: true });
+				} else {
+					return Object.assign({}, s, { selected: true , skillLevel: s.skillLevel+1});
+				}
+			}else {
 				return s;
 			}
 		});
@@ -369,9 +374,9 @@ class App extends Component {
 		const oldSkills = this.state.skills;
 		const newSkills = oldSkills.map(s => {
 			if ((s.name === skillName) && (s.selected === true) && (s.skillLevel > 1)) {
-				return Object.assign({}, s, { skillLevel: s.skillLevel-1});
+				return Object.assign({}, s, { skillLevel: s.skillLevel-1, skillLevelAtMax: false});
 			} else if ((s.name === skillName) && (s.selected === true) && (s.skillLevel === 1)) {
-				return Object.assign({}, s, { selected: false , skillLevel: s.skillLevel-1});
+				return Object.assign({}, s, { selected: false , skillLevel: s.skillLevel-1, skillLevelAtMax: false});
 			} else {
 				return s;
 			}
