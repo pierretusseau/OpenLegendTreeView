@@ -356,7 +356,7 @@ class App extends Component {
 		const oldSkills = this.state.skills;
 		const newSkills = oldSkills.map(s => {
 			if ((s.name === skillName) && (s.avaible === true)) {
-				return Object.assign({}, s, { selected: true , skillLevel: 1});
+				return Object.assign({}, s, { selected: true , skillLevel: s.skillLevel+1});
 			} else {
 				return s;
 			}
@@ -368,8 +368,10 @@ class App extends Component {
 	lessSkillValue(skillName) {
 		const oldSkills = this.state.skills;
 		const newSkills = oldSkills.map(s => {
-			if ((s.name === skillName) && (s.selected === true)) {
-				return Object.assign({}, s, { selected: false });
+			if ((s.name === skillName) && (s.selected === true) && (s.skillLevel > 1)) {
+				return Object.assign({}, s, { skillLevel: s.skillLevel-1});
+			} else if ((s.name === skillName) && (s.selected === true) && (s.skillLevel === 1)) {
+				return Object.assign({}, s, { selected: false , skillLevel: s.skillLevel-1});
 			} else {
 				return s;
 			}

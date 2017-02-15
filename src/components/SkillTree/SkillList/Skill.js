@@ -18,14 +18,10 @@ class Skill extends Component {
 	}
 
 	skillLeftClick() {
-		if(this.props.selected === false) {
-			this.props.addSkillValue(this.props.name);
-		}
+		this.props.addSkillValue(this.props.name);
   }
 	skillRightClick() {
-		if(this.props.selected === true) {
-			this.props.lessSkillValue(this.props.name);
-		}
+		this.props.lessSkillValue(this.props.name);
   }
 
 	hasSpecial() {
@@ -53,7 +49,7 @@ class Skill extends Component {
 							attributes={[]}
 						/>
 						<p className="skill--block-cost">{this.props.cost[0]}</p>
-						<p>{this.props.skillLevel}</p>
+						<p className="skill--block-level">{this.props.skillLevel}</p>
 					</div>
 				</div>
 	    );
@@ -76,7 +72,7 @@ class Skill extends Component {
 							attributes={[]}
 						/>
 						<p className="skill--block-cost">{this.props.cost[0]}</p>
-						<p>{this.props.skillLevel}</p>
+						<p className="skill--block-level">{this.props.skillLevel}</p>
 					</div>
 				</div>
 			);
