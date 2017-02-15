@@ -28,8 +28,8 @@ class SkillTree extends Component {
 	// 						description={skill.description}
 	// 						avaible={skill.avaible}
 	// 						selected={skill.selected}
-	// 						isSkillSelected={this.props.isSkillSelected}
-	// 						isSkillDeselected={this.props.isSkillDeselected}
+	// 						addSkillValue={this.props.addSkillValue}
+	// 						lessSkillValue={this.props.lessSkillValue}
 	// 					/>
 	// 				);
 	// 			} else {
@@ -46,24 +46,23 @@ class SkillTree extends Component {
 		// const skillList = this.props.skills;
     return (
 			<div id="SkillTree">
-				<h2>Your Skills</h2>
 				<SkillList
 					title={"SelectedSkillTree"}
 					skills={this.props.skills}
-					isSkillSelected={this.props.isSkillSelected}
-					isSkillDeselected={this.props.isSkillDeselected}
+					addSkillValue={this.props.addSkillValue}
+					lessSkillValue={this.props.lessSkillValue}
 				/>
 				<SkillList
 					title={"No Prerequisite"}
 					skills={this.props.skills}
-					isSkillSelected={this.props.isSkillSelected}
-					isSkillDeselected={this.props.isSkillDeselected}
+					addSkillValue={this.props.addSkillValue}
+					lessSkillValue={this.props.lessSkillValue}
 				/>
 				<SkillList
 					title={"Other"}
 					skills={this.props.skills}
-					isSkillSelected={this.props.isSkillSelected}
-					isSkillDeselected={this.props.isSkillDeselected}
+					addSkillValue={this.props.addSkillValue}
+					lessSkillValue={this.props.lessSkillValue}
 				/>
 			</div>
     );

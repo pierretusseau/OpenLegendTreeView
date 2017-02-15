@@ -1,0 +1,16 @@
+.skill--special-wrapper {
+	padding:30px 10px 10px 10px;
+	border-radius: 20px;
+	background:rgba(255,200,100,0.5);
+	position: relative;
+	overflow: hidden;
+}
+.skill--special-wrapper h4 {
+	margin:0;
+	background:black;
+	line-height: 30px;
+	position:absolute;
+	width:100%;
+	left:0px;
+	top:0px;
+}

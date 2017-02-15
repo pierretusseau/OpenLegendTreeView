@@ -156,26 +156,26 @@ class App extends Component {
 
 		this.addAttributeValue = this.addAttributeValue.bind(this);
 		this.lessAttributeValue = this.lessAttributeValue.bind(this);
-		this.resetAttributeValue = this.resetAttributeValue.bind(this);
-		this.isSkillSelected = this.isSkillSelected.bind(this);
-		this.isSkillDeselected = this.isSkillDeselected.bind(this);
+		this.resetAllAttr = this.resetAllAttr.bind(this);
+		this.addSkillValue = this.addSkillValue.bind(this);
+		this.lessSkillValue = this.lessSkillValue.bind(this);
 		this.resetSkills = this.resetSkills.bind(this);
 
 		let id = 0
 		// Définir le tableau des skills
-		Axios.get('https://raw.githubusercontent.com/KevinBacas/core-rules/master/feats/feats.yml').then(res => {
+		Axios.get('/feats.yml').then(res => {
 			const skillJson = yaml.load(res.data);
 			const skillInitialState = skillJson.map(s => {
 				// Si les tags ne sont pas null
 				if((s.prerequisites.tier1.Attribute === undefined) && (s.prerequisites.tier1.Feat === undefined)){
 					id++;
-					return Object.assign({}, s, { id:(id-1) , selected: false , avaible: true });
+					return Object.assign({}, s, { id:(id-1) , selected: false , avaible: true , skillLevel:0 , skillLevelAtMax: false });
 				} else if ((s.prerequisites.tier1.Attribute === undefined) && (s.prerequisites.tier1.Feat !== undefined)) {
 					id++;
-					return Object.assign({}, s, { id:(id-1) , selected: false , avaible: false , featRequired: s.prerequisites.tier1.Feat[0]});
+					return Object.assign({}, s, { id:(id-1) , selected: false , avaible: false , skillLevel:0 , skillLevelAtMax: false , featRequired: s.prerequisites.tier1.Feat[0]});
 				} else {
 					id++;
-					return Object.assign({}, s, { id:(id-1) , selected: false , avaible: false });
+					return Object.assign({}, s, { id:(id-1) , selected: false , avaible: false , skillLevel:0 , skillLevelAtMax: false });
 				}
 			})
 			// Envoyer tout ce bordel dans le state
@@ -216,13 +216,13 @@ class App extends Component {
 		});
 		this.isThisSkillNoAvaible(newAttributes);
 	}
-	resetAttributeValue() {
+	resetAllAttr() {
 		const oldValues = this.state.skills;
 		const newValues = oldValues.map(s => {
 			if(s.prerequisites.tier1.Attribute !== undefined) {
-				return Object.assign({}, s, {avaible: false, selected: false})
+				return Object.assign({}, s, {avaible: false, selected: false , skillLevel: 0, skillLevelAtMax: false})
 			} else {
-				return Object.assign({}, s, {selected: false})
+				return Object.assign({}, s, {selected: false , skillLevel: 0, skillLevelAtMax: false})
 			}
 		});
 		this.setState({
@@ -352,12 +352,17 @@ class App extends Component {
 			skills: newSkills,
 		});
 	}
-	isSkillSelected(skillName) {
+	addSkillValue(skillName) {
 		const oldSkills = this.state.skills;
 		const newSkills = oldSkills.map(s => {
-			if ((s.name === skillName) && (s.avaible === true)) {
-				return Object.assign({}, s, { selected: true });
-			} else {
+			const maxSkillLevel = Object.keys(s.prerequisites).length;
+			if ((s.name === skillName) && (s.avaible === true) && (s.skillLevel < (maxSkillLevel))) {
+				if(s.skillLevel === (maxSkillLevel - 1)) {
+					return Object.assign({}, s, { selected: true , skillLevel: s.skillLevel+1 , skillLevelAtMax: true });
+				} else {
+					return Object.assign({}, s, { selected: true , skillLevel: s.skillLevel+1});
+				}
+			}else {
 				return s;
 			}
 		});
@@ -365,11 +370,13 @@ class App extends Component {
 			skills: newSkills,
 		});
 	}
-	isSkillDeselected(skillName) {
+	lessSkillValue(skillName) {
 		const oldSkills = this.state.skills;
 		const newSkills = oldSkills.map(s => {
-			if ((s.name === skillName) && (s.selected === true)) {
-				return Object.assign({}, s, { selected: false });
+			if ((s.name === skillName) && (s.selected === true) && (s.skillLevel > 1)) {
+				return Object.assign({}, s, { skillLevel: s.skillLevel-1, skillLevelAtMax: false});
+			} else if ((s.name === skillName) && (s.selected === true) && (s.skillLevel === 1)) {
+				return Object.assign({}, s, { selected: false , skillLevel: s.skillLevel-1, skillLevelAtMax: false});
 			} else {
 				return s;
 			}
@@ -381,7 +388,7 @@ class App extends Component {
 	resetSkills() {
 		const oldSkills = this.state.skills;
 		const newSkills = oldSkills.map(s => {
-			return Object.assign({}, s, { selected: false });
+			return Object.assign({}, s, { selected: false , skillLevel: 0, skillLevelAtMax: false});
 		});
 		this.setState({
 			skills: newSkills
@@ -486,7 +493,7 @@ class App extends Component {
 				tree={this.state.attributes}
 				incrementFunction={this.addAttributeValue}
 				decrementFunction={this.lessAttributeValue}
-				resetFunction={this.resetAttributeValue}
+				resetFunction={this.resetAllAttr}
 				resetSkills={this.resetSkills}
 				/>
 				</div>
@@ -502,13 +509,13 @@ class App extends Component {
 				tree={this.state.attributes}
 				incrementFunction={this.addAttributeValue}
 				decrementFunction={this.lessAttributeValue}
-				resetFunction={this.resetAttributeValue}
+				resetFunction={this.resetAllAttr}
 				resetSkills={this.resetSkills}
 				/>
 				<SkillTree
 				skills={this.state.skills}
-				isSkillSelected={this.isSkillSelected}
-				isSkillDeselected={this.isSkillDeselected}
+				addSkillValue={this.addSkillValue}
+				lessSkillValue={this.lessSkillValue}
 				/>
 				</div>
 			);
