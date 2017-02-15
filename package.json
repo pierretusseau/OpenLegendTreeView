@@ -1,6 +1,7 @@
 {
-  "name": "ProjetTest",
+  "name": "open-legend",
   "version": "0.1.0",
+  "home": "http://openlegend.owinfinity.com/",
   "private": true,
   "devDependencies": {
     "react-scripts": "0.8.4"
