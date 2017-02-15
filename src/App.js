@@ -340,7 +340,7 @@ class App extends Component {
 				const isPrerequisValidated  = isPrerequisValidation.reduce((a,b)=>(a+b));
 				// vérifier si l'agilité est équivalent au niveau de prérequis
 				if((isPrerequisValidated > 0) || (isPrerequisValidated === false)) {
-					return Object.assign({}, s, {avaible : false, selected : false});
+					return Object.assign({}, s, {avaible : false, selected : false, skillLevel: 0, skillLevelAtMax: false});
 				} else {
 					return Object.assign({}, s);
 				}
@@ -355,8 +355,14 @@ class App extends Component {
 	addSkillValue(skillName) {
 		const oldSkills = this.state.skills;
 		const newSkills = oldSkills.map(s => {
-			const maxSkillLevel = Object.keys(s.prerequisites).length;
+			const skillListOfPrerequisites = Object.keys(s.prerequisites)
+			const maxSkillLevel = skillListOfPrerequisites.length;
 			if ((s.name === skillName) && (s.avaible === true) && (s.skillLevel < (maxSkillLevel))) {
+				const requiredSkillLevel = skillListOfPrerequisites.map(tier => {
+					return s.prerequisites[tier];
+				});
+				// console.log(Object.values(s.prerequisites));
+				console.log(requiredSkillLevel);
 				if(s.skillLevel === (maxSkillLevel - 1)) {
 					return Object.assign({}, s, { selected: true , skillLevel: s.skillLevel+1 , skillLevelAtMax: true });
 				} else {
