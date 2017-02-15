@@ -26,6 +26,17 @@
 	background:rgba(0,150,0,0.15);
 	/*order: -1;*/
 	cursor: pointer;
+	min-width: 25%;
+	margin-top: 30px;
+}
+.skill--block.selected h3 {
+	font-size: 13pt;
+	line-height: 30px;
+	background:black;
+	position: relative;
+	top:-40px;
+	left:0;
+	width:100%;
 }
 .SkillTable .skill--block.selected {
 	display:none;
@@ -44,6 +55,8 @@
 }
 .skill--block-wrapper h3 {
 	font-size:  9pt;
+	font-weight: bold;
+	text-transform: uppercase;
 }
 
 .skill--block-wrapper p:not(.skill--block-cost):not(.skill--block-level) { /* :not exclus la class sélectionnée */
@@ -76,22 +89,31 @@
 	width:25px;
 	line-height: 22px;
 }
-.skill--block-cost[data-descr]:hover::after {
-	content:"Skill cost";
-	/*opacity:0;*/
+p[data-descr]::after {
+	content: attr(data-descr);
+	opacity:0;
 	z-index: 99;
 	transition: linear 0.4s;
 	position: absolute;
-	top:0;
-	left:25px;
-	background:red;
+	text-align: center;
+	top:-25px;
+	left:-100%;
+	margin:auto;
+	border-radius:20px;
+	background:rgba(0,0,0,0.75);
+	padding: 5px;
 	display:block;
+	font-size: 9pt;
+	line-height: 12px;
 	min-width:100px;
 	max-width: 200px;
 }
+p[data-descr]:hover::after {
+	opacity:1;
+}
 
 .skill--block-level {
-	top:-45px;
+	top:-50px;
 	left:0;
 	right:0;
 	height:40px;

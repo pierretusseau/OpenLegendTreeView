@@ -57,7 +57,6 @@ class SkillList extends Component {
 		if(this.props.title !== "SelectedSkillTree") {
 			return (
 				<div id={this.getId()} className="SkillTable">
-					<h2>{this.props.title}</h2>
 					<div className="SkillTableWrapper">
 						{this.getSkills(this.props.skills)}
 					</div>
