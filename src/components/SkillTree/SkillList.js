@@ -42,8 +42,9 @@ class SkillList extends Component {
 					special={skill.special}
 					avaible={skill.avaible}
 					selected={skill.selected}
-					isSkillSelected={this.props.isSkillSelected}
-					isSkillDeselected={this.props.isSkillDeselected}
+					skillLevel={skill.skillLevel}
+					addSkillValue={this.props.addSkillValue}
+					lessSkillValue={this.props.lessSkillValue}
 					/>
 				);
 			});

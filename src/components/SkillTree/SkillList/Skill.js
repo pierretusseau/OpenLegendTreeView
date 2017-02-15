@@ -17,14 +17,14 @@ class Skill extends Component {
 		}
 	}
 
-	selectSkill() {
+	skillLeftClick() {
 		if(this.props.selected === false) {
-			this.props.isSkillSelected(this.props.name);
+			this.props.addSkillValue(this.props.name);
 		}
   }
-	deselectSkill() {
+	skillRightClick() {
 		if(this.props.selected === true) {
-			this.props.isSkillDeselected(this.props.name);
+			this.props.lessSkillValue(this.props.name);
 		}
   }
 
@@ -39,13 +39,12 @@ class Skill extends Component {
 	}
 
   render() {
-		console.log(this.props);
 		if(this.props.selected === false) {
 	    return (
 				<div
 					className={this.skillClass(this.props.avaible, this.props.selected)}
-					onClick={() => this.selectSkill()}
-					onContextMenu={() => this.deselectSkill()}
+					onClick={() => this.skillLeftClick()}
+					onContextMenu={() => this.skillRightClick()}
 				>
 					<div className="skill--block-wrapper">
 						<h3>{this.props.name}</h3>
@@ -54,6 +53,7 @@ class Skill extends Component {
 							attributes={[]}
 						/>
 						<p className="skill--block-cost">{this.props.cost[0]}</p>
+						<p>{this.props.skillLevel}</p>
 					</div>
 				</div>
 	    );
@@ -61,8 +61,8 @@ class Skill extends Component {
 			return (
 				<div
 					className={this.skillClass(this.props.avaible, this.props.selected)}
-					onClick={() => this.selectSkill()}
-					onContextMenu={() => this.deselectSkill()}
+					onClick={() => this.skillLeftClick()}
+					onContextMenu={() => this.skillRightClick()}
 				>
 					<div className="skill--block-wrapper">
 						<h3>{this.props.name}</h3>
@@ -76,6 +76,7 @@ class Skill extends Component {
 							attributes={[]}
 						/>
 						<p className="skill--block-cost">{this.props.cost[0]}</p>
+						<p>{this.props.skillLevel}</p>
 					</div>
 				</div>
 			);
