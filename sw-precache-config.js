@@ -3,12 +3,9 @@ module.exports = {
   staticFileGlobs: [
     'build/*.html',
     'build/manifest.json',
+    'build/feats.yml',
     'build/static/**/!(*map*)'
   ],
-  runtimeCaching: [{
-    urlPattern: /^https:\/\/raw\.githubusercontent\.com\//,
-    handler: 'networkFirst'
-  }],
   dontCacheBustUrlsMatching: /\.\w{8}\./,
   swFilePath: 'build/service-worker.js'
 };
