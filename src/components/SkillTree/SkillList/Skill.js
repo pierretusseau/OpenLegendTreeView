@@ -36,6 +36,7 @@ class Skill extends Component {
 
   render() {
 		if(this.props.selected === false) {
+			// console.log(this.props);
 	    return (
 				<div
 					className={this.skillClass(this.props.avaible, this.props.selected)}

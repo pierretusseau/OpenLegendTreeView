@@ -15,12 +15,13 @@ class SkillList extends Component {
 		}
 	}
 
+
 	filterSkills(filterMe) {
 		if(this.props.title === "No Prerequisite"){
-			const filteredSkills = filterMe.filter(skill => skill.prerequisites.tier1.Attribute === undefined);
+			const filteredSkills = filterMe.filter(skill => skill.requiredType === 0);
 			return filteredSkills;
 		} else if(this.props.title === "Other") {
-			const filteredSkills = filterMe.filter(skill => skill.prerequisites.tier1.Attribute !== undefined);
+			const filteredSkills = filterMe.filter(skill => skill.requiredType > 0);
 			return filteredSkills;
 		} else {
 			const filteredSkills = filterMe.filter(skill => skill.selected === true);

@@ -28,15 +28,15 @@
 	cursor: pointer;
 	min-width: 25%;
 	margin-top: 30px;
-}
-.skill--block.selected h3 {
-	font-size: 13pt;
-	line-height: 30px;
-	background:black;
-	position: relative;
-	top:-40px;
-	left:0;
-	width:100%;
+	h3 {
+		font-size: 13pt;
+		line-height: 30px;
+		background:black;
+		position: relative;
+		top:-40px;
+		left:0;
+		width:100%;
+	}
 }
 .SkillTable .skill--block.selected {
 	display:none;
@@ -52,11 +52,11 @@
 .skill--block-wrapper {
 	line-height: 20px;
 	position: relative;
-}
-.skill--block-wrapper h3 {
-	font-size:  9pt;
-	font-weight: bold;
-	text-transform: uppercase;
+	h3 {
+		font-size:  9pt;
+		font-weight: bold;
+		text-transform: uppercase;
+	}
 }
 
 .skill--block-wrapper p:not(.skill--block-cost):not(.skill--block-level) { /* :not exclus la class sélectionnée */
