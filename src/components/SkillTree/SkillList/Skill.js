@@ -36,9 +36,12 @@ class Skill extends Component {
 	}
 	getAttributes(attributes) {
 		if(attributes !== undefined) {
+			let attrId = 0
 			const attributeList = attributes.map(a => {
+				attrId++;
 				return (
 					<SkillAttributes
+						key={attrId-1}
 						name={Object.keys(a)[0]}
 					/>
 				);
@@ -74,9 +77,9 @@ class Skill extends Component {
 						<div className="skill--attr-names-wrapper">
 							{this.getAttributes(this.props.requiredAttribute)}
 						</div>
-						<p className="skill--attr-level-wrapper">
+						<div className="skill--attr-level-wrapper">
 							{this.getAttributeLevel(this.props.requiredAttribute)}
-						</p>
+						</div>
 					</div>
 				</div>
 	    );
