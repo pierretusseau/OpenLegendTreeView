@@ -1,23 +1,19 @@
 
 .skill--block {
 	z-index: 1;
-	width: 23%;
-	min-height: 200px;
+	width: 45%;
+	min-height: 250px;
 	margin: 10px auto;
 	background:rgba(0,0,0,0.5);
 	line-height: 200px;
-	padding:10px;
+	padding:10px 0px;
 	text-align: center;
-	border:black solid 3px;
+	border:black solid 0px;
 	opacity:0.25;
 	transition: ease-in-out 0.2s;
 	order: 1;
 	cursor: no-drop;
 	position:relative;
-}
-
-#NoPrerequisTable .skill--block {
-	width: 45%;
 }
 
 .skill--block.selected {
@@ -61,11 +57,13 @@
 
 .skill--block-wrapper p:not(.skill--block-cost):not(.skill--block-level) { /* :not exclus la class sélectionnée */
 	font-size:  8pt;
+	padding:0px 10px;
 }
 
 .skill--block-description,
 #SelectedSkillTree p:not(.skill--block-cost):not(.skill--block-level) { /* :not exclus la class sélectionnée */
 	line-height: 9pt;
+	padding:0px 10px;
 	text-align: left;
 }
 
@@ -108,7 +106,27 @@ p[data-descr]::after {
 	min-width:100px;
 	max-width: 200px;
 }
-p[data-descr]:hover::after {
+div[data-descr]::after {
+		content: attr(data-descr);
+		opacity:0;
+		z-index: 99;
+		transition: linear 0.4s;
+		position: absolute;
+		text-align: center;
+		top:-25px;
+		left:0;right:0;
+		margin:auto;
+		border-radius:20px;
+		background:black;
+		padding: 5px;
+		display:block;
+		font-size: 9pt;
+		line-height: 12px;
+		min-width:100px;
+		max-width: 200px;
+}
+p[data-descr]:hover::after,
+div[data-descr]:hover::after {
 	opacity:1;
 }
 
@@ -123,4 +141,53 @@ p[data-descr]:hover::after {
 	font-size: 15pt;
 	font-weight: bold;
 	line-height: 37px;
+}
+.skill--block .skill--attr-required-wrapper {
+	display:none;
+}
+.skill--block:not(.avaible) {
+	.skill--attr-required-wrapper {
+		position:absolute;
+		width:100%;
+		// left:-2%;
+		bottom:-0px;
+		vertical-align: bottom;
+		display:flex;
+		// flex-flow: row wrap;
+		// justify-content: flex-end;
+		// align-items: stretch;
+		// align-content: stretch;
+		.skill--attr-names-wrapper .skill--attribute-required,
+		.skill--attr-level-wrapper .skill--attribute-level {
+			min-height: 30px;
+			line-height: 30px;
+		}
+		.skill--attr-names-wrapper {
+			order:0;
+			flex-grow: 2;
+			.skill--attribute-required{
+				font-size: 9pt;
+				background:black;
+				margin:0px;
+			}
+		}
+		.skill--attr-level-wrapper {
+			margin:0px;
+			background:rgb(50,50,50);
+			order:1;
+			flex-grow: 1;
+			position:relative;
+			overflow: hidden;
+			// border-radius: 0px 100px 100px 0px;
+			min-width: 30%;
+			.skill--attribute-level {
+				font-size: 20pt;
+			  position: absolute;
+				color:white;
+			  top: 50%;
+			  left: 50%;
+			  transform: translate(-50%, -50%);
+			}
+		}
+	}
 }

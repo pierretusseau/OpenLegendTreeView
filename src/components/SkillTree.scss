@@ -5,6 +5,7 @@
 	display: inline-block;
 	vertical-align: top;
 	background:green;
+	max-width: 30%;
 }
 .SkillTableWrapper {
 	display: flex;
@@ -13,27 +14,27 @@
 
 #NoPrerequisTable {
 	background:rgba(0,0,0,0.15);
-	max-width: 30%;
-}
-#NoPrerequisTable .SkillTableWrapper {
 }
 
 #OtherTable {
+	background:rgba(255,177,0,0.15);
+ .SkillTableWrapper {
+		justify-content: space-between;
+	}
+}
+
+#FeatsRequiredTable {
 	background:rgba(255,0,0,0.15);
-	max-width: 65%;
-}
-#OtherTable .SkillTableWrapper {
-	justify-content: space-between;
+
 }
 
-#SelectedSkillTree .SkillTableWrapper {
+#SelectedSkillTree{
 	background:rgba(0,0,0,0.15);
-	margin: 10px 40px;
-	display: flex;
-	flex-flow: row wrap;
-	justify-content: center;
-}
-
-#SelectedSkillTree .skill--block {
-	margin:10px;
+	.SkillTableWrapper {
+		margin: 10px 40px;
+		justify-content: center;
+	}
+	.skill--block {
+		margin:10px;
+	}
 }

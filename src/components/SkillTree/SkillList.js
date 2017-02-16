@@ -10,6 +10,8 @@ class SkillList extends Component {
 			return "NoPrerequisTable";
 		} else if(this.props.title === "Other") {
 			return "OtherTable";
+		} else if(this.props.title === "Feats Required") {
+			return "FeatsRequiredTable";
 		} else {
 			return "SelectedSkillTree";
 		}
@@ -21,7 +23,10 @@ class SkillList extends Component {
 			const filteredSkills = filterMe.filter(skill => skill.requiredType === 0);
 			return filteredSkills;
 		} else if(this.props.title === "Other") {
-			const filteredSkills = filterMe.filter(skill => skill.requiredType > 0);
+			const filteredSkills = filterMe.filter(skill => skill.requiredType === 2);
+			return filteredSkills;
+		} else if(this.props.title === "Feats Required") {
+			const filteredSkills = filterMe.filter(skill => (skill.requiredType === 1) || (skill.requiredType === 3));
 			return filteredSkills;
 		} else {
 			const filteredSkills = filterMe.filter(skill => skill.selected === true);
@@ -32,20 +37,22 @@ class SkillList extends Component {
 	getSkills(skillArray) {
 		if(this.filterSkills(skillArray) !== undefined) {
 			const skillList = this.filterSkills(skillArray).map(skill => {
+				// console.log(skill);
 				return (
 					<Skill
-					key={skill.id}
-					name={skill.name}
-					cost={skill.cost}
-					attributesNeeded={skill.prerequisites.tier1.Attribute}
-					description={skill.description}
-					effect={skill.effect}
-					special={skill.special}
-					avaible={skill.avaible}
-					selected={skill.selected}
-					skillLevel={skill.skillLevel}
-					addSkillValue={this.props.addSkillValue}
-					lessSkillValue={this.props.lessSkillValue}
+						key={skill.id}
+						name={skill.name}
+						cost={skill.cost}
+						description={skill.description}
+						effect={skill.effect}
+						special={skill.special}
+						requiredFeat={skill.requiredFeat}
+						requiredAttribute={skill.requiredAttribute}
+						avaible={skill.avaible}
+						selected={skill.selected}
+						skillLevel={skill.skillLevel}
+						addSkillValue={this.props.addSkillValue}
+						lessSkillValue={this.props.lessSkillValue}
 					/>
 				);
 			});

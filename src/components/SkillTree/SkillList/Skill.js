@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import SkillSpecial from "./Skill/SkillSpecial.js";
 import SkillAttributes from "./Skill/SkillAttributes.js";
+import SkillAttributeLevel from "./Skill/SkillAttributeLevel.js";
 
 import './Skill.css';
 
@@ -33,6 +34,27 @@ class Skill extends Component {
 			);
 		}
 	}
+	getAttributes(attributes) {
+		if(attributes !== undefined) {
+			const attributeList = attributes.map(a => {
+				return (
+					<SkillAttributes
+						name={Object.keys(a)[0]}
+					/>
+				);
+			});
+			return attributeList;
+		}
+	}
+	getAttributeLevel(attributes) {
+		if(attributes !== undefined) {
+			return(
+				<SkillAttributeLevel
+					value={Object.values(attributes[0])}
+				/>
+			);
+		}
+	}
 
   render() {
 		if(this.props.selected === false) {
@@ -46,10 +68,15 @@ class Skill extends Component {
 					<div className="skill--block-wrapper">
 						<h3>{this.props.name}</h3>
 						<p className="skill--block-description">{this.props.description}</p>
-						<SkillAttributes
-							attributes={[]}
-						/>
 						<p className="skill--block-cost" data-descr="Skill cost">{this.props.cost[0]}</p>
+					</div>
+					<div className="skill--attr-required-wrapper" data-descr="Attributes required">
+						<div className="skill--attr-names-wrapper">
+							{this.getAttributes(this.props.requiredAttribute)}
+						</div>
+						<p className="skill--attr-level-wrapper">
+							{this.getAttributeLevel(this.props.requiredAttribute)}
+						</p>
 					</div>
 				</div>
 	    );
@@ -67,9 +94,6 @@ class Skill extends Component {
 						<h4>Effect</h4>
 						<p className="skill--block-effect" dangerouslySetInnerHTML={{__html: this.props.effect}}></p>
 						{this.hasSpecial()}
-						<SkillAttributes
-							attributes={[]}
-						/>
 						<p className="skill--block-cost" data-descr="Skill cost">{this.props.cost[0]}</p>
 						<p className="skill--block-level" data-descr="Skill level">{this.props.skillLevel}</p>
 					</div>

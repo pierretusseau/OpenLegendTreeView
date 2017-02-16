@@ -356,7 +356,7 @@ class App extends Component {
 					if(filteredAttribute[0].value < requiredLevel) {
 						return true;
 					} else {
-						return false;
+						return undefined;
 					}
 				});
 				const isPrerequisValidated  = isPrerequisValidation.reduce((a,b)=>(a+b));
