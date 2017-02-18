@@ -53,6 +53,7 @@ class SkillList extends Component {
 						skillLevel={skill.skillLevel}
 						addSkillValue={this.props.addSkillValue}
 						lessSkillValue={this.props.lessSkillValue}
+						updateAvailabilitySkill={this.props.updateAvailabilitySkill}
 					/>
 				);
 			});

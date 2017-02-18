@@ -7,7 +7,11 @@ class Attribute extends Component {
 
 	increaseAttr() {
 		if(this.props.value < 9) {
+			//console.log("increase");
 			this.props.incrementFunction(this.props.name);
+			//console.log("update skill by RT");
+			//console.log(this.props.updateAvailabilitySkill);
+			//this.props.updateAvailabilitySkill(this.props.name);
 		}
   }
 
@@ -15,6 +19,7 @@ class Attribute extends Component {
   decreaseAttr() {
 	  if(this.props.value > 0) {
 			this.props.decrementFunction(this.props.name);
+			//this.props.updateAvailabilitySkill(this.props.name);
 	  }
 		const thisButton = document.getElementById("attribute-"+this.props.name).children[2];
 		thisButton.style.top = "100px";

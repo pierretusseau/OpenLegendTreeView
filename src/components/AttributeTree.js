@@ -25,7 +25,7 @@ const ExtraordinaryStyle = {
 
 class AttributeTree extends Component {
 	getAttributeByCategory(array, categoryName) {
-		return array.filter(a => a.category === categoryName).map(attribute => <Button name={attribute.name} value={attribute.value} key={attribute.id} incrementFunction={this.props.incrementFunction}  decrementFunction={this.props.decrementFunction} />);
+		return array.filter(a => a.category === categoryName).map(attribute => <Button name={attribute.name} value={attribute.value} key={attribute.id} incrementFunction={this.props.incrementFunction}  decrementFunction={this.props.decrementFunction}/>);
 	}
 	totalCategory(array, categoryName) {
 		return array.filter(a => a.category === categoryName).map(attribute => attribute.value).reduce((a,b) => a+b);

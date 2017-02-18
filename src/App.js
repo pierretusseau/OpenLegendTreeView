@@ -223,7 +223,9 @@ class App extends Component {
 			attributes: newAttributes,
 		});
 		this.isThisSkillAvaible(newAttributes);
+	  //this.isThisSkillCanBeAvailable(this.setState.skills, newAttributes);
 	}
+
 	lessAttributeValue(attributeName) {
 		const oldAttributes = this.state.attributes;
 		const newAttributes = oldAttributes.map(s => {
@@ -237,7 +239,9 @@ class App extends Component {
 			attributes: newAttributes,
 		});
 		this.isThisSkillNoAvaible(newAttributes);
+	  //this.isThisSkillCanBeAvailable(this.setState.skills, newAttributes);
 	}
+
 	resetAllAttr() {
 		const oldValues = this.state.skills;
 		const newValues = oldValues.map(s => {
@@ -271,6 +275,7 @@ class App extends Component {
 	// 		return undefined;
 	// 	}
 	// }
+
 	isThisSkillAvaible(attributes) {
 		const oldSkills = this.state.skills
 		// Pour chaque skill
@@ -313,11 +318,27 @@ class App extends Component {
 				const isPrerequisValidated  = isPrerequisValidation.reduce((a,b)=>(a+b));
 				// vérifier si l'agilité est équivalent au niveau de prérequis
 				if((isPrerequisValidated > 0) || (isPrerequisValidated === true)) {
-					return Object.assign({}, s, {avaible : true});
+					if(s.requiredType === 1 || s.requiredType === 3) {
+							console.log("Add attribute :  requiredType 1/3 " + s.name);
+						if(this.checkParentUnlocked(s.requiredFeat)) {
+							console.log("Add attribute :  parents unlocked " + s.name);
+							return Object.assign({}, s, {avaible : true});
+						}
+						else {
+								console.log("Add attribute :  parent locked " + s.name);
+							return Object.assign({}, s);
+						}
+					}
+					else {
+							// console.log("Add attribute :  procédure normale");
+						return Object.assign({}, s, {avaible : true});
+					}
 				} else {
+						// console.log("Add attribute :  procédure normale");
 					return Object.assign({}, s);
 				}
 			} else {
+					// console.log("Add attribute :  procédure normale");
 				return Object.assign({}, s);
 			}
 			// A partir de là, j'ai rempli requiredLevel et requiredAttributes /////////////
@@ -326,6 +347,7 @@ class App extends Component {
 			skills: newSkills,
 		});
 	}
+
 	isThisSkillNoAvaible(attributes) {
 		const oldSkills = this.state.skills
 		// Pour chaque skill
@@ -375,25 +397,30 @@ class App extends Component {
 			skills: newSkills,
 		});
 	}
+
+	// Increase level of the current skill
 	addSkillValue(skillName) {
 		const oldSkills = this.state.skills;
 		const newSkills = oldSkills.map(s => {
 			const skillListOfPrerequisites = Object.keys(s.prerequisites)
 			const maxSkillLevel = skillListOfPrerequisites.length;
 			if ((s.name === skillName) && (s.avaible === true) && (s.skillLevel < (maxSkillLevel))) {
-				if(s.skillLevel === (maxSkillLevel - 1)) {
-					return Object.assign({}, s, { selected: true , skillLevel: s.skillLevel+1 , skillLevelAtMax: true });
-				} else {
-					return Object.assign({}, s, { selected: true , skillLevel: s.skillLevel+1});
+					if(s.skillLevel === (maxSkillLevel - 1)) {
+						return Object.assign({}, s, { selected: true , skillLevel: s.skillLevel+1 , skillLevelAtMax: true });
+					} else {
+						return Object.assign({}, s, { selected: true , skillLevel: s.skillLevel+1});
+					}
 				}
-			}else {
+			else {
 				return s;
 			}
 		});
 		this.setState({
 			skills: newSkills,
 		});
+	 this.isAttributesRequiredAvaible(newSkills);
 	}
+
 	lessSkillValue(skillName) {
 		const oldSkills = this.state.skills;
 		const newSkills = oldSkills.map(s => {
@@ -408,7 +435,9 @@ class App extends Component {
 		this.setState({
 			skills: newSkills,
 		});
+		this.isAttributesRequiredNoAvaible(newSkills);
 	}
+
 	resetSkills() {
 		const oldSkills = this.state.skills;
 		const newSkills = oldSkills.map(s => {
@@ -416,6 +445,128 @@ class App extends Component {
 		});
 		this.setState({
 			skills: newSkills
+		});
+	}
+
+	isAttributesRequiredAvaible(oldSkills) {
+		const attributes = this.state.attributes
+		// Pour chaque skill
+		const newSkills = oldSkills.map(s => {
+			// Si un tableau d'attrtibut existe
+			if(s.requiredAttribute !== undefined){
+				const attributeArray = s.requiredAttribute;
+				// Déclarer tableau vide qui contiendra la valeur requise
+				const requiredLevel = []
+				// Déclarer tableau vide qui contiendra la liste des attributs possibles
+				const prerequisiteAttributeList = [];
+				attributeArray.map(attr => {
+					const prerequisiteAttributeName = Object.keys(attr)[0];
+					if(prerequisiteAttributeName !== "Any Extraordinary") {
+						return(prerequisiteAttributeList.push(prerequisiteAttributeName));
+					} else {
+						return(attributes.filter(a => a.category === "Extraordinary").map(a => {
+							return(prerequisiteAttributeList.push(a.name));
+						}));
+					}
+				});
+				const prerequisiteLevel = Object.values(attributeArray[0]);
+				requiredLevel.push(prerequisiteLevel[0]);
+
+				// Vérifier si un des attribute requis est équivalent ou plus grand que le niveau de prérequis
+				// Si possède une skill parent
+					// Si cette skill est selected
+					// TRUE
+					// Sinon
+					// FALSE
+				// Sinon
+				const isPrerequisValidation = prerequisiteAttributeList.map(prere => {
+					const filteredAttribute = attributes.filter(a => a.name === prere);
+					if(filteredAttribute[0].value >= requiredLevel) {
+						return true;
+					} else {
+						return false;
+					}
+				});
+				const isPrerequisValidated  = isPrerequisValidation.reduce((a,b)=>(a+b));
+				// vérifier si l'agilité est équivalent au niveau de prérequis
+				if((isPrerequisValidated > 0) || (isPrerequisValidated === true)) {
+					if(s.requiredType === 1 || s.requiredType === 3) {
+							console.log("Add attribute :  requiredType 1/3 " + s.name);
+						if(this.checkParentUnlocked(s.requiredFeat)) {
+							console.log("Add attribute :  parents unlocked " + s.name);
+							return Object.assign({}, s, {avaible : true});
+						}
+						else {
+								console.log("Add attribute :  parent locked " + s.name);
+							return Object.assign({}, s);
+						}
+					}
+					else {
+							// console.log("Add attribute :  procédure normale");
+						return Object.assign({}, s, {avaible : true});
+					}
+				} else {
+						// console.log("Add attribute :  procédure normale");
+					return Object.assign({}, s);
+				}
+			} else {
+					// console.log("Add attribute :  procédure normale");
+				return Object.assign({}, s);
+			}
+			// A partir de là, j'ai rempli requiredLevel et requiredAttributes /////////////
+		});
+		this.setState({
+			skills: newSkills,
+		});
+	}
+
+	isAttributesRequiredNoAvaible(oldSkills) {
+		const attributes = this.state.attributes;
+		// Pour chaque skill
+		const newSkills = oldSkills.map(s => {
+			// Si un tableau d'attrtibut existe
+			if(s.requiredAttribute !== undefined){
+				const attributeArray = s.requiredAttribute;
+				// Déclarer tableau vide qui contiendra la valeur requise
+				const requiredLevel = []
+				// Déclarer tableau vide qui contiendra la liste des attributs possibles
+				const prerequisiteAttributeList = [];
+				attributeArray.map(attr => {
+					const prerequisiteAttributeName = Object.keys(attr)[0];
+					if(prerequisiteAttributeName !== "Any Extraordinary") {
+						return(prerequisiteAttributeList.push(prerequisiteAttributeName));
+					} else {
+						return(attributes.filter(a => a.category === "Extraordinary").map(a => {
+							return(prerequisiteAttributeList.push(a.name));
+						}));
+					}
+				});
+				const prerequisiteLevel = Object.values(attributeArray[0]);
+				requiredLevel.push(prerequisiteLevel[0]);
+
+				// Vérifier si un des attribute requis est équivalent ou plus grand que le niveau de prérequis
+				const isPrerequisValidation = prerequisiteAttributeList.map(prere => {
+					const filteredAttribute = attributes.filter(a => a.name === prere);
+					if(filteredAttribute[0].value < requiredLevel) {
+						return true;
+					} else {
+						return undefined;
+					}
+				});
+				const isPrerequisValidated  = isPrerequisValidation.reduce((a,b)=>(a+b));
+				// vérifier si l'agilité est équivalent au niveau de prérequis
+				if((isPrerequisValidated > 0) || (isPrerequisValidated === false)) {
+					return Object.assign({}, s, {avaible : false, selected : false, skillLevel: 0, skillLevelAtMax: false});
+				} else {
+					return Object.assign({}, s);
+				}
+			} else {
+				return Object.assign({}, s);
+			}
+			// A partir de là, j'ai rempli requiredLevel et requiredAttributes /////////////
+		});
+		this.setState({
+			skills: newSkills,
 		});
 	}
 
@@ -504,6 +655,96 @@ class App extends Component {
 	// 		skills: newSkills,
 	// 	});
 	// }
+
+	/*
+	* check if this skill can be available and update it if necessary
+	* parameters string[] attributes
+	* void
+	*/
+		isThisSkillCanBeAvailable(oldSkills) {
+			//const oldSkills = this.state.skills;
+			//const attributes = this.state.attributes;
+			//console.log("is this can be availaible", oldSkills);
+			console.log("---------------- BEGIN ----------------");
+			console.log("---------------- isThisSkillCanBeAvailable ----------------");
+			const newSkills = oldSkills.map(s => {
+				if(s.requiredType === 1 ||s.requiredType === 3) {
+				//	console.log("unlocked : " + this.checkParentUnlocked(s.requiredFeat) + " attri");
+					if(this.checkParentUnlocked(s.requiredFeat)) {
+						console.log("isThisSkill : youhou! availaible true " + s.name);
+						return Object.assign({}, s, {avaible : true});
+					} else {
+						console.log("isThisSkill : sad! " +s.name);
+						return Object.assign({}, s, {avaible : false, selected : false});
+					}
+				} else {
+					return Object.assign({}, s);
+				}
+			});
+
+			this.setState({
+				skills: newSkills,
+			});
+			console.log("---------------- END ----------------");
+		}
+
+		/*
+		* check if all parents skills of the current skill are activated
+		* parameters string[] requiredFeat
+		* return boolean
+		*/
+		checkParentUnlocked(requiredFeat){
+			// console.log("check parent unlocked ");
+			for (var i=0; i < requiredFeat.length; i++) {
+				if (this.isThisSpecificSkillActivated(requiredFeat[i]) === false) {
+					return false;
+				}
+			}
+			console.log("true checked");
+			return true;
+		}
+
+		/*
+		* check if this skill is activated (with correct level)
+		* parameters string skillName
+		* return boolean
+		*/
+		isThisSpecificSkillActivated(skillName) {
+		//	console.log("is this specific skill ativated : " + skillName);
+			//console.log("lol");
+			const currentSkills = this.state.skills;
+			var level = this.convertRomanNumbers(skillName);
+			// console.log(" level :" + level);
+			//console.log(" length skills " + currentSkills.length);
+			for (var i = 0; i < currentSkills.length; i++){
+				//console.log(" compare :" + currentSkills[i].name + " and " + skillName);
+				if(currentSkills[i].name.includes(skillName)) {
+					//console.log(" includes :" + currentSkills[i].name + " <--- " + skillName);
+					if(currentSkills[i].selected && currentSkills[i].skillLevel === level) {
+						console.log("OMG YES YOU CAN " + skillName);
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+
+		/*
+		* convert level Roman numbers to an integer
+		* parameters string skillName
+		* return int
+		*/
+		convertRomanNumbers(skillName) {
+			//console.log("convert roman");
+			var int_roman_numbers = [' I', ' II', ' III', ' IV', ' V', ' VI', ' VII', ' VIII', ' IX'];
+			for (var i = 0; i < int_roman_numbers.length; i++){
+				if (skillName.includes(int_roman_numbers[i])){
+				//	console.log("valeur numerique :"+ i+1 +", roman number :" + int_roman_numbers[i]);
+					return i+1;
+				}
+			}
+			return 1;
+		}
 
   render() {
 		if(this.state.skills.length === 0) {

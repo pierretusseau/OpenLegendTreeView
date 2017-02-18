@@ -21,6 +21,7 @@ class Skill extends Component {
 	skillLeftClick() {
 		this.props.addSkillValue(this.props.name);
   }
+
 	skillRightClick() {
 		this.props.lessSkillValue(this.props.name);
   }
