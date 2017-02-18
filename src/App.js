@@ -401,7 +401,7 @@ class App extends Component {
 	// Increase level of the current skill
 	addSkillValue(skillName) {
 		const oldSkills = this.state.skills;
-		const newSkills = oldSkills.map(s => {
+		let newSkills = oldSkills.map(s => {
 			const skillListOfPrerequisites = Object.keys(s.prerequisites)
 			const maxSkillLevel = skillListOfPrerequisites.length;
 			if ((s.name === skillName) && (s.avaible === true) && (s.skillLevel < (maxSkillLevel))) {
@@ -415,15 +415,16 @@ class App extends Component {
 				return s;
 			}
 		});
+		newSkills =  this.isAttributesRequiredAvaible(newSkills);
 		this.setState({
 			skills: newSkills,
 		});
-	 this.isAttributesRequiredAvaible(newSkills);
+	 //this.isAttributesRequiredAvaible(newSkills);
 	}
 
 	lessSkillValue(skillName) {
 		const oldSkills = this.state.skills;
-		const newSkills = oldSkills.map(s => {
+		var newSkills = oldSkills.map(s => {
 			if ((s.name === skillName) && (s.selected === true) && (s.skillLevel > 1)) {
 				return Object.assign({}, s, { skillLevel: s.skillLevel-1, skillLevelAtMax: false});
 			} else if ((s.name === skillName) && (s.selected === true) && (s.skillLevel === 1)) {
@@ -432,10 +433,11 @@ class App extends Component {
 				return s;
 			}
 		});
+		newSkills = this.isAttributesRequiredNoAvaible(newSkills);
 		this.setState({
 			skills: newSkills,
 		});
-		this.isAttributesRequiredNoAvaible(newSkills);
+
 	}
 
 	resetSkills() {
@@ -515,9 +517,7 @@ class App extends Component {
 			}
 			// A partir de là, j'ai rempli requiredLevel et requiredAttributes /////////////
 		});
-		this.setState({
-			skills: newSkills,
-		});
+		return newSkills;
 	}
 
 	isAttributesRequiredNoAvaible(oldSkills) {
@@ -565,9 +565,7 @@ class App extends Component {
 			}
 			// A partir de là, j'ai rempli requiredLevel et requiredAttributes /////////////
 		});
-		this.setState({
-			skills: newSkills,
-		});
+		return newSkills;
 	}
 
 	// Archives de fonctions
