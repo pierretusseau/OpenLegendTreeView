@@ -222,7 +222,6 @@ class App extends Component {
 			attributes: newAttributes,
 		});
 		this.isThisSkillAvaible(newAttributes);
-	  //this.isThisSkillCanBeAvailable(this.setState.skills, newAttributes);
 	}
 
 	lessAttributeValue(attributeName) {
@@ -238,7 +237,6 @@ class App extends Component {
 			attributes: newAttributes,
 		});
 		this.isThisSkillNoAvaible(newAttributes);
-	  //this.isThisSkillCanBeAvailable(this.setState.skills, newAttributes);
 	}
 
 	resetAllAttr() {
@@ -278,23 +276,119 @@ class App extends Component {
 	isThisSkillAvaible(attributes) {
 		const oldSkills = this.state.skills
 		// Pour chaque skill
-		const newSkills = oldSkills.map(s => {
+		let newSkills = oldSkills.map(s => {
 			return this.updateAvailabality(s, attributes);
 		});
+		newSkills = this.isThisSkillCanBeAvailable(newSkills);
 		this.setState({
 			skills: newSkills,
 		});
 	}
 
+	updateAvailabality(s, attributes){
+			// Si un tableau d'attrtibut existe
+			if(s.requiredAttribute !== undefined){
+				const attributeArray = s.requiredAttribute;
+				// Déclarer tableau vide qui contiendra la valeur requise
+				const requiredLevel = []
+				// Déclarer tableau vide qui contiendra la liste des attributs possibles
+				const prerequisiteAttributeList = [];
+				attributeArray.map(attr => {
+					const prerequisiteAttributeName = Object.keys(attr)[0];
+					if(prerequisiteAttributeName !== "Any Extraordinary") {
+						return(prerequisiteAttributeList.push(prerequisiteAttributeName));
+					} else {
+						return(attributes.filter(a => a.category === "Extraordinary").map(a => {
+							return(prerequisiteAttributeList.push(a.name));
+						}));
+					}
+				});
+				const prerequisiteLevel = Object.values(attributeArray[0]);
+				requiredLevel.push(prerequisiteLevel[0]);
+
+				// Vérifier si un des attribute requis est équivalent ou plus grand que le niveau de prérequis
+				// Si possède une skill parent
+					// Si cette skill est selected
+					// TRUE
+					// Sinon
+					// FALSE
+				// Sinon
+				const isPrerequisValidation = prerequisiteAttributeList.map(prere => {
+					const filteredAttribute = attributes.filter(a => a.name === prere);
+					if(filteredAttribute[0].value >= requiredLevel) {
+						return true;
+					} else {
+						return false;
+					}
+				});
+				const isPrerequisValidated  = isPrerequisValidation.reduce((a,b)=>(a+b));
+				// vérifier si l'agilité est équivalent au niveau de prérequis
+				if((isPrerequisValidated > 0) || (isPrerequisValidated === true)) {
+							// console.log("Add attribute :  procédure normale");
+						return Object.assign({}, s, {avaible : true});
+					}
+				else {
+						// console.log("Add attribute :  procédure normale");
+					return Object.assign({}, s);
+				}
+			} else {
+					// console.log("Add attribute :  procédure normale");
+				return Object.assign({}, s);
+			}
+			// A partir de là, j'ai rempli requiredLevel et requiredAttributes /////////////
+	}
+
 	isThisSkillNoAvaible(attributes) {
 		const oldSkills = this.state.skills
 		// Pour chaque skill
-		const newSkills = oldSkills.map(s => {
+		let newSkills = oldSkills.map(s => {
 		 return this.updateNoAvailability(s , attributes)
 		});
+		newSkills = this.isThisSkillCanBeAvailable(newSkills);
 		this.setState({
 			skills: newSkills,
 		});
+	}
+
+	updateNoAvailability(s, attributes){
+		if(s.requiredAttribute !== undefined){
+			const attributeArray = s.requiredAttribute;
+			// Déclarer tableau vide qui contiendra la valeur requise
+			const requiredLevel = []
+			// Déclarer tableau vide qui contiendra la liste des attributs possibles
+			const prerequisiteAttributeList = [];
+			attributeArray.map(attr => {
+				const prerequisiteAttributeName = Object.keys(attr)[0];
+				if(prerequisiteAttributeName !== "Any Extraordinary") {
+					return(prerequisiteAttributeList.push(prerequisiteAttributeName));
+				} else {
+					return(attributes.filter(a => a.category === "Extraordinary").map(a => {
+						return(prerequisiteAttributeList.push(a.name));
+					}));
+				}
+			});
+			const prerequisiteLevel = Object.values(attributeArray[0]);
+			requiredLevel.push(prerequisiteLevel[0]);
+
+			// Vérifier si un des attribute requis est équivalent ou plus grand que le niveau de prérequis
+			const isPrerequisValidation = prerequisiteAttributeList.map(prere => {
+				const filteredAttribute = attributes.filter(a => a.name === prere);
+				if(filteredAttribute[0].value < requiredLevel) {
+					return true;
+				} else {
+					return undefined;
+				}
+			});
+			const isPrerequisValidated  = isPrerequisValidation.reduce((a,b)=>(a+b));
+			// vérifier si l'agilité est équivalent au niveau de prérequis
+			if((isPrerequisValidated > 0) || (isPrerequisValidated === false)) {
+				return Object.assign({}, s, {avaible : false, selected : false, skillLevel: 0, skillLevelAtMax: false});
+			} else {
+				return Object.assign({}, s);
+			}
+		} else {
+			return Object.assign({}, s);
+		}
 	}
 
 	// Increase level of the current skill
@@ -352,19 +446,21 @@ class App extends Component {
 	isAttributesRequiredAvaible(oldSkills) {
 		const attributes = this.state.attributes
 		// Pour chaque skill
-		const newSkills = oldSkills.map(s => {
+		let newSkills = oldSkills.map(s => {
 			return this.updateAvailabality(s, attributes);
 		});
+		newSkills = this.isThisSkillCanBeAvailable(newSkills);
 		return newSkills;
 	}
 
 	isAttributesRequiredNoAvaible(oldSkills) {
 		const attributes = this.state.attributes;
 		// Pour chaque skill
-		const newSkills = oldSkills.map(s => {
+		let newSkills = oldSkills.map(s => {
 		// Si un tableau d'attrtibut existe
 			return this.updateNoAvailability(s, attributes);
 		});
+		newSkills = this.isThisSkillCanBeAvailable(newSkills);
 		return newSkills;
 	}
 
@@ -460,30 +556,35 @@ class App extends Component {
 	* void
 	*/
 		isThisSkillCanBeAvailable(oldSkills) {
-			//const oldSkills = this.state.skills;
-			//const attributes = this.state.attributes;
-			//console.log("is this can be availaible", oldSkills);
-			console.log("---------------- BEGIN ----------------");
-			console.log("---------------- isThisSkillCanBeAvailable ----------------");
+			// console.log("---------------- BEGIN ----------------");
+			// console.log("---------------- isThisSkillCanBeAvailable ----------------");
 			const newSkills = oldSkills.map(s => {
-				if(s.requiredType === 1 ||s.requiredType === 3) {
+				if(s.requiredType === 1) {
 				//	console.log("unlocked : " + this.checkParentUnlocked(s.requiredFeat) + " attri");
-					if(this.checkParentUnlocked(s.requiredFeat)) {
+					if(this.checkParentUnlocked(s.requiredFeat, oldSkills)) {
 						console.log("isThisSkill : youhou! availaible true " + s.name);
 						return Object.assign({}, s, {avaible : true});
 					} else {
-						console.log("isThisSkill : sad! " +s.name);
+						// console.log("isThisSkill : sad! " +s.name);
 						return Object.assign({}, s, {avaible : false, selected : false});
 					}
-				} else {
+				} else if (s.requiredType === 3) {
+					if(s.avaible) {
+						if(this.checkParentUnlocked(s.requiredFeat, oldSkills)) {
+							console.log("isThisSkill : youhou! availaible true " + s.name);
+							return Object.assign({}, s, {avaible : true});
+						} else {
+							// console.log("isThisSkill : sad! " +s.name);
+							return Object.assign({}, s, {avaible : false, selected : false});
+						}
+					}
 					return Object.assign({}, s);
 				}
+				return Object.assign({}, s);
 			});
 
-			this.setState({
-				skills: newSkills,
-			});
-			console.log("---------------- END ----------------");
+			return newSkills;
+			// console.log("---------------- END ----------------");
 		}
 
 		/*
@@ -491,10 +592,10 @@ class App extends Component {
 		* parameters string[] requiredFeat
 		* return boolean
 		*/
-		checkParentUnlocked(requiredFeat){
+		checkParentUnlocked(requiredFeat, currentSkills){
 			// console.log("check parent unlocked ");
 			for (var i=0; i < requiredFeat.length; i++) {
-				if (this.isThisSpecificSkillActivated(requiredFeat[i]) === false) {
+				if (this.isThisSpecificSkillActivated(requiredFeat[i], currentSkills) === false) {
 					return false;
 				}
 			}
@@ -507,10 +608,9 @@ class App extends Component {
 		* parameters string skillName
 		* return boolean
 		*/
-		isThisSpecificSkillActivated(skillName) {
+		isThisSpecificSkillActivated(skillName, currentSkills) {
 		//	console.log("is this specific skill ativated : " + skillName);
 			//console.log("lol");
-			const currentSkills = this.state.skills;
 			var level = this.convertRomanNumbers(skillName);
 			// console.log(" level :" + level);
 			//console.log(" length skills " + currentSkills.length);
@@ -542,112 +642,6 @@ class App extends Component {
 				}
 			}
 			return 1;
-		}
-
-		updateAvailabality(s, attributes){
-				// Si un tableau d'attrtibut existe
-				if(s.requiredAttribute !== undefined){
-					const attributeArray = s.requiredAttribute;
-					// Déclarer tableau vide qui contiendra la valeur requise
-					const requiredLevel = []
-					// Déclarer tableau vide qui contiendra la liste des attributs possibles
-					const prerequisiteAttributeList = [];
-					attributeArray.map(attr => {
-						const prerequisiteAttributeName = Object.keys(attr)[0];
-						if(prerequisiteAttributeName !== "Any Extraordinary") {
-							return(prerequisiteAttributeList.push(prerequisiteAttributeName));
-						} else {
-							return(attributes.filter(a => a.category === "Extraordinary").map(a => {
-								return(prerequisiteAttributeList.push(a.name));
-							}));
-						}
-					});
-					const prerequisiteLevel = Object.values(attributeArray[0]);
-					requiredLevel.push(prerequisiteLevel[0]);
-
-					// Vérifier si un des attribute requis est équivalent ou plus grand que le niveau de prérequis
-					// Si possède une skill parent
-						// Si cette skill est selected
-						// TRUE
-						// Sinon
-						// FALSE
-					// Sinon
-					const isPrerequisValidation = prerequisiteAttributeList.map(prere => {
-						const filteredAttribute = attributes.filter(a => a.name === prere);
-						if(filteredAttribute[0].value >= requiredLevel) {
-							return true;
-						} else {
-							return false;
-						}
-					});
-					const isPrerequisValidated  = isPrerequisValidation.reduce((a,b)=>(a+b));
-					// vérifier si l'agilité est équivalent au niveau de prérequis
-					if((isPrerequisValidated > 0) || (isPrerequisValidated === true)) {
-						if(s.requiredType === 1 || s.requiredType === 3) {
-								console.log("Add attribute :  requiredType 1/3 " + s.name);
-							if(this.checkParentUnlocked(s.requiredFeat)) {
-								console.log("Add attribute :  parents unlocked " + s.name);
-								return Object.assign({}, s, {avaible : true});
-							}
-							else {
-									console.log("Add attribute :  parent locked " + s.name);
-								return Object.assign({}, s);
-							}
-						}
-						else {
-								// console.log("Add attribute :  procédure normale");
-							return Object.assign({}, s, {avaible : true});
-						}
-					} else {
-							// console.log("Add attribute :  procédure normale");
-						return Object.assign({}, s);
-					}
-				} else {
-						// console.log("Add attribute :  procédure normale");
-					return Object.assign({}, s);
-				}
-				// A partir de là, j'ai rempli requiredLevel et requiredAttributes /////////////
-		}
-
-		updateNoAvailability(s, attributes){
-			if(s.requiredAttribute !== undefined){
-				const attributeArray = s.requiredAttribute;
-				// Déclarer tableau vide qui contiendra la valeur requise
-				const requiredLevel = []
-				// Déclarer tableau vide qui contiendra la liste des attributs possibles
-				const prerequisiteAttributeList = [];
-				attributeArray.map(attr => {
-					const prerequisiteAttributeName = Object.keys(attr)[0];
-					if(prerequisiteAttributeName !== "Any Extraordinary") {
-						return(prerequisiteAttributeList.push(prerequisiteAttributeName));
-					} else {
-						return(attributes.filter(a => a.category === "Extraordinary").map(a => {
-							return(prerequisiteAttributeList.push(a.name));
-						}));
-					}
-				});
-				const prerequisiteLevel = Object.values(attributeArray[0]);
-				requiredLevel.push(prerequisiteLevel[0]);
-
-				// Vérifier si un des attribute requis est équivalent ou plus grand que le niveau de prérequis
-				const isPrerequisValidation = prerequisiteAttributeList.map(prere => {
-					const filteredAttribute = attributes.filter(a => a.name === prere);
-					if(filteredAttribute[0].value < requiredLevel) {
-						return true;
-					} else {
-						return undefined;
-					}
-				});
-				const isPrerequisValidated  = isPrerequisValidation.reduce((a,b)=>(a+b));
-				// vérifier si l'agilité est équivalent au niveau de prérequis
-				if((isPrerequisValidated > 0) || (isPrerequisValidated === false)) {
-					return Object.assign({}, s, {avaible : false, selected : false, skillLevel: 0, skillLevelAtMax: false});
-				} else {
-					return Object.assign({}, s);
-				}
-			} else {
-				return Object.assign({}, s);
-			}
 		}
 
   render() {
