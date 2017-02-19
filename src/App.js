@@ -218,10 +218,11 @@ class App extends Component {
 				return s;
 			}
 		});
+		const newSkills = this.isThisSkillAvaible(newAttributes);
 		this.setState({
 			attributes: newAttributes,
+			skills: newSkills
 		});
-		this.isThisSkillAvaible(newAttributes);
 	}
 
 	lessAttributeValue(attributeName) {
@@ -233,10 +234,12 @@ class App extends Component {
 				return s;
 			}
 		});
+		const newSkills = this.isThisSkillNoAvaible(newAttributes);
 		this.setState({
 			attributes: newAttributes,
+			skills: newSkills
 		});
-		this.isThisSkillNoAvaible(newAttributes);
+
 	}
 
 	resetAllAttr() {
@@ -280,9 +283,7 @@ class App extends Component {
 			return this.updateAvailabality(s, attributes);
 		});
 		newSkills = this.isThisSkillCanBeAvailable(newSkills);
-		this.setState({
-			skills: newSkills,
-		});
+		return newSkills;
 	}
 
 	updateAvailabality(s, attributes){
@@ -345,9 +346,7 @@ class App extends Component {
 		 return this.updateNoAvailability(s , attributes)
 		});
 		newSkills = this.isThisSkillCanBeAvailable(newSkills);
-		this.setState({
-			skills: newSkills,
-		});
+		return newSkills;
 	}
 
 	updateNoAvailability(s, attributes){
@@ -556,25 +555,18 @@ class App extends Component {
 	* void
 	*/
 		isThisSkillCanBeAvailable(oldSkills) {
-			// console.log("---------------- BEGIN ----------------");
-			// console.log("---------------- isThisSkillCanBeAvailable ----------------");
 			const newSkills = oldSkills.map(s => {
 				if(s.requiredType === 1) {
-				//	console.log("unlocked : " + this.checkParentUnlocked(s.requiredFeat) + " attri");
 					if(this.checkParentUnlocked(s.requiredFeat, oldSkills)) {
-						console.log("isThisSkill : youhou! availaible true " + s.name);
 						return Object.assign({}, s, {avaible : true});
 					} else {
-						// console.log("isThisSkill : sad! " +s.name);
 						return Object.assign({}, s, {avaible : false, selected : false});
 					}
 				} else if (s.requiredType === 3) {
 					if(s.avaible) {
 						if(this.checkParentUnlocked(s.requiredFeat, oldSkills)) {
-							console.log("isThisSkill : youhou! availaible true " + s.name);
 							return Object.assign({}, s, {avaible : true});
 						} else {
-							// console.log("isThisSkill : sad! " +s.name);
 							return Object.assign({}, s, {avaible : false, selected : false});
 						}
 					}
@@ -582,9 +574,7 @@ class App extends Component {
 				}
 				return Object.assign({}, s);
 			});
-
 			return newSkills;
-			// console.log("---------------- END ----------------");
 		}
 
 		/*
@@ -599,7 +589,6 @@ class App extends Component {
 					return false;
 				}
 			}
-			console.log("true checked");
 			return true;
 		}
 
@@ -609,17 +598,10 @@ class App extends Component {
 		* return boolean
 		*/
 		isThisSpecificSkillActivated(skillName, currentSkills) {
-		//	console.log("is this specific skill ativated : " + skillName);
-			//console.log("lol");
 			var level = this.convertRomanNumbers(skillName);
-			// console.log(" level :" + level);
-			//console.log(" length skills " + currentSkills.length);
 			for (var i = 0; i < currentSkills.length; i++){
-				//console.log(" compare :" + currentSkills[i].name + " and " + skillName);
 				if(currentSkills[i].name.includes(skillName)) {
-					//console.log(" includes :" + currentSkills[i].name + " <--- " + skillName);
 					if(currentSkills[i].selected && currentSkills[i].skillLevel === level) {
-						console.log("OMG YES YOU CAN " + skillName);
 						return true;
 					}
 				}
@@ -633,11 +615,9 @@ class App extends Component {
 		* return int
 		*/
 		convertRomanNumbers(skillName) {
-			//console.log("convert roman");
 			var int_roman_numbers = [' I', ' II', ' III', ' IV', ' V', ' VI', ' VII', ' VIII', ' IX'];
 			for (var i = 0; i < int_roman_numbers.length; i++){
 				if (skillName.includes(int_roman_numbers[i])){
-				//	console.log("valeur numerique :"+ i+1 +", roman number :" + int_roman_numbers[i]);
 					return i+1;
 				}
 			}
