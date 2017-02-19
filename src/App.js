@@ -610,9 +610,10 @@ class App extends Component {
 		* return boolean
 		*/
 		isThisSpecificSkillActivated(skillName, currentSkills) {
+			let level = this.convertRomanNumbers(skillName);
+			skillName = skillName.slice(0, -4);
 			for (let i = 0; i < currentSkills.length; i++){
 				if(currentSkills[i].name.includes(skillName)) {
-					let level = this.convertRomanNumbers(skillName);
 					if(skillName === "Lethal Strike I"){
 						console.log("OK LETHAL, level returned :" + level);
 					}
