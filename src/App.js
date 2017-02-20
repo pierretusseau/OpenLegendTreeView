@@ -194,22 +194,23 @@ class App extends Component {
 
 				// Si any defined dans le tiers1
 				} else {
+						// 1 => Si Prérequis ne contiennent pas d'attribut mais un Feat prérequis
 				  	if ((s.prerequisites.tier1.any.Attribute === undefined) && (s.prerequisites.tier1.any.Feat !== undefined)) {
 							const requireFeatInject = Object.values(s.prerequisites.tier1.any.Feat);
 							id++;
 							return Object.assign({}, s, { id:(id-1) , selected: false , avaible: false , skillLevel:0 , skillLevelAtMax: false , requiredType: 1.1, requiredFeat: requireFeatInject});
 						// 2 => Si Prérequis contient un/des attribut(s) mais pas de Feat prérequis
-				} else if ((s.prerequisites.tier1.any.Attribute !== undefined) && (s.prerequisites.tier1.any.Feat === undefined)) {
-						const requireAttributeInject = Object.values(s.prerequisites.tier1.any.Attribute);
-						id++;
-						return Object.assign({}, s, { id:(id-1) , selected: false , avaible: false , skillLevel:0 , skillLevelAtMax: false , requiredType: 2.1, requiredAttribute: requireAttributeInject});
-						// 3 => Sinon (Attribute ET Feat prérequis pour le débloquer)
-				} else {
-						const requireFeatInject = Object.values(s.prerequisites.tier1.any.Feat);
-						const requireAttributeInject = Object.values(s.prerequisites.tier1.any.Attribute);
-						id++;
-						return Object.assign({}, s, { id:(id-1) , selected: false , avaible: false , skillLevel:0 , skillLevelAtMax: false , requiredType: 3.1, requiredAttribute: requireAttributeInject, requiredFeat: requireFeatInject});
-					}
+						} else if ((s.prerequisites.tier1.any.Attribute !== undefined) && (s.prerequisites.tier1.any.Feat === undefined)) {
+								const requireAttributeInject = Object.values(s.prerequisites.tier1.any.Attribute);
+								id++;
+								return Object.assign({}, s, { id:(id-1) , selected: false , avaible: false , skillLevel:0 , skillLevelAtMax: false , requiredType: 2.1, requiredAttribute: requireAttributeInject});
+								// 3 => Sinon (Attribute ET Feat prérequis pour le débloquer)
+						} else {
+								const requireFeatInject = Object.values(s.prerequisites.tier1.any.Feat);
+								const requireAttributeInject = Object.values(s.prerequisites.tier1.any.Attribute);
+								id++;
+								return Object.assign({}, s, { id:(id-1) , selected: false , avaible: false , skillLevel:0 , skillLevelAtMax: false , requiredType: 3.1, requiredAttribute: requireAttributeInject, requiredFeat: requireFeatInject});
+							}
 				}
 			});
 
@@ -218,6 +219,71 @@ class App extends Component {
 				skills: skillInitialState
 			});
 		});
+	}
+
+	/*
+	* return the max number of tiers (level) of the skill
+	*/
+	maxNumberOfTiers(skill) {
+		const tiersArray = ["tier1", "tier2", "tier3", "tier4", "tier5", "tier6", "tier7", "tier8", "tier9"];
+		for (let i = tiersArray.length-1; i >= 0; i--){
+			if(skill.prerequisites.tiersArray[i] !== undefined) {
+				return i;
+			}
+		}
+	}
+
+	/*
+	* return the current skill with the prerequisites according to the tier
+	*/
+	prerequisitesAttributesFeatAccordingToTiers(skill, tier) {
+		const s = skill;
+		let id = 0;
+		tier = "tier" + tier;
+		// Si any est undefined dans le tiers1
+		if((s.prerequisites.obj[tier].any === undefined)) {
+				// 0 => Si Prérequis ne contiennent ni attribut ni feat require
+			if((s.prerequisites.obj[tier].Attribute === undefined) && (s.prerequisites.obj[tier].Feat === undefined)){
+				id++;
+				return Object.assign({}, s, {requiredType: 0});
+				// 1 => Si Prérequis ne contiennent pas d'attribut mais un Feat prérequis
+			} else if ((s.prerequisites.obj[tier].Attribute === undefined) && (s.prerequisites.obj[tier].Feat !== undefined)) {
+					const requireFeatInject = Object.values(s.prerequisites.obj[tier].Feat);
+					id++;
+					return Object.assign({}, s, {requiredType: 1, requiredFeat: requireFeatInject});
+				// 2 => Si Prérequis contient un/des attribut(s) mais pas de Feat prérequis
+			} else if ((s.prerequisites.obj[tier].Attribute !== undefined) && (s.prerequisites.obj[tier].Feat === undefined)) {
+					const requireAttributeInject = Object.values(s.prerequisites.obj[tier].Attribute);
+					id++;
+					return Object.assign({}, s, {requiredType: 2, requiredAttribute: requireAttributeInject});
+					// 3 => Sinon (Attribute ET Feat prérequis pour le débloquer)
+			} else {
+					const requireFeatInject = Object.values(s.prerequisites.obj[tier].Feat);
+					const requireAttributeInject = Object.values(s.prerequisites.obj[tier].Attribute);
+					id++;
+					return Object.assign({}, s, {requiredType: 3, requiredAttribute: requireAttributeInject, requiredFeat: requireFeatInject});
+				}
+
+		// Si any defined dans le tiers1
+		} else {
+				// 1 => Si Prérequis ne contiennent pas d'attribut mais un Feat prérequis
+				if ((s.prerequisites.obj[tier].any.Attribute === undefined) && (s.prerequisites.tier1.any.Feat !== undefined)) {
+					const requireFeatInject = Object.values(s.prerequisites.obj[tier].any.Feat);
+					id++;
+					return Object.assign({}, s, {requiredType: 1.1, requiredFeat: requireFeatInject});
+				// 2 => Si Prérequis contient un/des attribut(s) mais pas de Feat prérequis
+				} else if ((s.prerequisites.obj[tier].any.Attribute !== undefined) && (s.prerequisites.obj[tier].any.Feat === undefined)) {
+						const requireAttributeInject = Object.values(s.prerequisites.obj[tier].any.Attribute);
+						id++;
+						return Object.assign({}, s, {requiredType: 2.1, requiredAttribute: requireAttributeInject});
+						// 3 => Sinon (Attribute ET Feat prérequis pour le débloquer)
+				} else {
+						const requireFeatInject = Object.values(s.prerequisites.obj[tier].any.Feat);
+						const requireAttributeInject = Object.values(s.prerequisites.obj[tier].any.Attribute);
+						id++;
+						return Object.assign({}, s, {requiredType: 3.1, requiredAttribute: requireAttributeInject, requiredFeat: requireFeatInject});
+					}
+		}
 	}
 
 	// Attributes
@@ -569,20 +635,34 @@ class App extends Component {
 		isThisSkillCanBeAvailable(oldSkills) {
 			const newSkills = oldSkills.map(s => {
 				if(s.requiredType === 1) {
-					if(this.checkParentUnlocked(s.requiredFeat, oldSkills)) {
+					if(this.checkAllParentUnlocked(s.requiredFeat, oldSkills)) {
 						return Object.assign({}, s, {avaible : true});
 					} else {
 						return Object.assign({}, s, {avaible : false, selected : false, skillLevel: 0});
 					}
 				} else if (s.requiredType === 3) {
 					if(s.avaible) {
-						if(this.checkParentUnlocked(s.requiredFeat, oldSkills)) {
+						if(this.checkAllParentUnlocked(s.requiredFeat, oldSkills)) {
 							return Object.assign({}, s, {avaible : true});
 						} else {
 							return Object.assign({}, s, {avaible : false, selected : false, skillLevel: 0});
 						}
 					}
 					return Object.assign({}, s);
+				} else if (s.requiredType === 1.1) {
+					if(this.checkOneParentUnlocked(s.requiredFeat, oldSkills)) {
+						return Object.assign({}, s, {avaible : true});
+					} else {
+						return Object.assign({}, s, {avaible : false, selected : false, skillLevel: 0});
+					}
+				} else if (s.requiredType === 3.1) {
+					if(!s.avaible) {
+						if(this.checkOneParentUnlocked(s.requiredFeat, oldSkills)) {
+							return Object.assign({}, s, {avaible : true});
+						} else {
+							return Object.assign({}, s, {avaible : false, selected : false, skillLevel: 0});
+						}
+					}
 				}
 				return Object.assign({}, s);
 			});
@@ -594,7 +674,7 @@ class App extends Component {
 		* parameters string[] requiredFeat
 		* return boolean
 		*/
-		checkParentUnlocked(requiredFeat, currentSkills){
+		checkAllParentUnlocked(requiredFeat, currentSkills){
 			// console.log("check parent unlocked ");
 			for (let i=0; i < requiredFeat.length; i++) {
 				if (!this.isThisSpecificSkillActivated(requiredFeat[i], currentSkills)) {
@@ -604,6 +684,15 @@ class App extends Component {
 			return true;
 		}
 
+		checkOneParentUnlocked(requiredFeat, currentSkills){
+			for (let i=0; i< requiredFeat.length; i++) {
+				if(this.isThisSpecificSkillActivated(requiredFeat[i], currentSkills)) {
+					return true;
+				}
+			}
+			return false;
+		}
+
 		/*
 		* check if this skill is activated (with correct level)
 		* parameters string skillName
@@ -611,12 +700,10 @@ class App extends Component {
 		*/
 		isThisSpecificSkillActivated(skillName, currentSkills) {
 			let level = this.convertRomanNumbers(skillName);
-			skillName = skillName.slice(0, -4);
+			// dirty way to do that, need to return the indexes and check if there is any roman number in it
+			skillName = skillName.slice(0, -5);
 			for (let i = 0; i < currentSkills.length; i++){
 				if(currentSkills[i].name.includes(skillName)) {
-					if(skillName === "Lethal Strike I"){
-						console.log("OK LETHAL, level returned :" + level);
-					}
 					if(currentSkills[i].selected && currentSkills[i].skillLevel === level) {
 						return true;
 					}

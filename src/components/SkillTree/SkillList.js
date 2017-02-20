@@ -23,10 +23,10 @@ class SkillList extends Component {
 			const filteredSkills = filterMe.filter(skill => skill.requiredType === 0);
 			return filteredSkills;
 		} else if(this.props.title === "Other") {
-			const filteredSkills = filterMe.filter(skill => skill.requiredType === 2);
+			const filteredSkills = filterMe.filter(skill => (skill.requiredType === 2) || (skill.requiredType === 2.1));
 			return filteredSkills;
 		} else if(this.props.title === "Feats Required") {
-			const filteredSkills = filterMe.filter(skill => (skill.requiredType === 1) || (skill.requiredType === 3));
+			const filteredSkills = filterMe.filter(skill => (skill.requiredType === 1) || (skill.requiredType === 3) || (skill.requiredType === 1.1) || (skill.requiredType === 3.1));
 			return filteredSkills;
 		} else {
 			const filteredSkills = filterMe.filter(skill => skill.selected === true);
