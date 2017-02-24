@@ -436,7 +436,7 @@ class App extends Component {
 					s = this.prerequisitesAttributesFeatAccordingToTiers(s, 1);
 					let skill = this.prerequisitesAttributesFeatAccordingToTiers(s, s.skillLevel+1);
 					skill = this.updateAvailabality(skill, attributes);
-					skill = this.updateNoAvailability(skill, attributes);
+					skill = this.noAvailability(skill, attributes);
 					return Object.assign({}, s, {avaible : skill.avaible, selected : false, skillLevel: 0, skillLevelAtMax: false});
 				} else {
 					return Object.assign({}, s);
@@ -446,8 +446,57 @@ class App extends Component {
 						s = this.prerequisitesAttributesFeatAccordingToTiers(s, 1);
 						let skill = this.prerequisitesAttributesFeatAccordingToTiers(s, s.skillLevel+1);
 						skill = this.updateAvailabality(skill, attributes);
-						skill = this.updateNoAvailability(skill, attributes);
+						skill = this.noAvailability(skill, attributes);
 						return Object.assign({}, s, {avaible : skill.avaible, selected : false, skillLevel: 0, skillLevelAtMax: false});
+					} else {
+						return Object.assign({}, s);
+					}
+			}
+		} else {
+			return Object.assign({}, s);
+		}
+	}
+
+	noAvailability(s, attributes){
+		if(s.requiredAttribute !== undefined){
+			const attributeArray = s.requiredAttribute;
+			// Déclarer tableau vide qui contiendra la valeur requise
+			const requiredLevel = []
+			// Déclarer tableau vide qui contiendra la liste des attributs possibles
+			const prerequisiteAttributeList = [];
+			attributeArray.map(attr => {
+				const prerequisiteAttributeName = Object.keys(attr)[0];
+				if(prerequisiteAttributeName !== "Any Extraordinary") {
+					return(prerequisiteAttributeList.push(prerequisiteAttributeName));
+				} else {
+					return(attributes.filter(a => a.category === "Extraordinary").map(a => {
+						return(prerequisiteAttributeList.push(a.name));
+					}));
+				}
+			});
+			const prerequisiteLevel = Object.values(attributeArray[0]);
+			requiredLevel.push(prerequisiteLevel[0]);
+
+			// Vérifier si un des attribute requis est équivalent ou plus grand que le niveau de prérequis
+			const isPrerequisValidation = prerequisiteAttributeList.map(prere => {
+				const filteredAttribute = attributes.filter(a => a.name === prere);
+				if(filteredAttribute[0].value < requiredLevel) {
+					return true;
+				} else {
+					return undefined;
+				}
+			});
+			const isPrerequisValidated  = isPrerequisValidation.reduce((a,b)=>(a+b));
+			// vérifier si l'agilité est équivalent au niveau de prérequis
+			if(s.requiredType === 0 || s.requiredType === 1 || s.requiredType === 2 || s.requiredType === 3) {
+				if((isPrerequisValidated > 0) || (isPrerequisValidated === false)) {
+					return Object.assign({}, s, {avaible : false, selected : false, skillLevel: 0, skillLevelAtMax: false});
+				} else {
+					return Object.assign({}, s);
+				}
+			} else {
+					if((isPrerequisValidated > 0) || (isPrerequisValidated === false)) {
+						return Object.assign({}, s, {avaible : false, selected : false, skillLevel: 0, skillLevelAtMax: false});
 					} else {
 						return Object.assign({}, s);
 					}
@@ -494,10 +543,10 @@ class App extends Component {
 		const oldSkills = this.state.skills;
 		let newSkills = oldSkills.map(s => {
 			if ((s.name === skillName) && (s.selected === true) && (s.skillLevel > 1)) {
-				s = this.prerequisitesAttributesFeatAccordingToTiers(s, s.skillLevel-1);
+				//s = this.prerequisitesAttributesFeatAccordingToTiers(s, s.skillLevel-1);
 				return Object.assign({}, s, { skillLevel: s.skillLevel-1, skillLevelAtMax: false});
 			} else if ((s.name === skillName) && (s.selected === true) && (s.skillLevel === 1)) {
-				s = this.prerequisitesAttributesFeatAccordingToTiers(s, 1);
+				//s = this.prerequisitesAttributesFeatAccordingToTiers(s, 1);
 				return Object.assign({}, s, {selected: false , skillLevel: s.skillLevel-1, skillLevelAtMax: false});
 			} else {
 				return s;
