@@ -4,7 +4,7 @@
   "home": "http://openlegend.owinfinity.com/",
   "private": true,
   "devDependencies": {
-    "react-scripts": "0.9.1"
+    "react-scripts": "0.9.3"
   },
   "dependencies": {
     "axios": "^0.15.3",
